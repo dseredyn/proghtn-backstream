@@ -1,0 +1,318 @@
+{
+  "Comment": [
+    "- cabinet without doors",
+    "- the bowl is on a table",
+    "- the jar is in a cabinet",
+    "- the jar is opened"
+  ],
+  "ObjectInstances": [
+    {
+      "ObjectInstance": {
+        "ObjectId": "table_1",
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "table_2",
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "jar_1",
+        "ObjectModelId": "jar"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "jar_1_lid",
+        "ObjectModelId": "jar_lid"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "cabinet_2",
+        "ObjectModelId": "cabinet_no_door"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "bowl_1",
+        "ObjectModelId": "bowl_high"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "box_1",
+        "ObjectModelId": "box1"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "box_2",
+        "ObjectModelId": "box2"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "substance_1"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "substance_2"
+      }
+    }
+  ],
+  "WorldState": [
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "substance_1",
+        "PoseDescription": {
+          "PlaceDesc": {
+            "PlacePreposition": "in",
+            "RelativeTo": {
+              "ObjectId": "jar_1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "substance_2",
+        "PoseDescription": {
+          "PlaceDesc": {
+            "PlacePreposition": "in",
+            "RelativeTo": {
+              "ObjectId": "bowl_1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "GripperState": {
+        "State": "empty",
+        "Side": "left"
+      }
+    },
+    {
+      "GripperState": {
+        "State": "empty",
+        "Side": "right"
+      }
+    },
+    {
+      "BodyPose": {
+        "RightArm": {
+          "ArmConfig": {
+            "q0": "-0.299817034946",
+            "q1": "-1.79743530393",
+            "q2": "1.25057781643",
+            "q3": "0.849852872629",
+            "q4": "-0.000293766346604",
+            "q5": "-0.500160760176",
+            "q6": "-0.000497403905433"
+          },
+          "Side": "right"
+        },
+        "LeftArm": {
+          "ArmConfig": {
+            "q0": "0.299856866424",
+            "q1": "1.79710571933",
+            "q2": "-1.25065833286",
+            "q3": "-0.849893210506",
+            "q4": "0.000305365530218",
+            "q5": "0.499967171008",
+            "q6": "0.000374229783384"
+          },
+          "Side": "left"
+        },
+        "RightHand": {
+          "HandConfig": {
+            "f0a": "0",
+            "f0b": "0",
+            "f1a": "0",
+            "f1b": "0",
+            "f2a": "0",
+            "f2b": "0",
+            "sp": "0"
+          },
+          "Side": "right"
+        },
+        "LeftHand": {
+          "HandConfig": {
+            "f0a": "0",
+            "f0b": "0",
+            "f1a": "0",
+            "f1b": "0",
+            "f2a": "0",
+            "f2b": "0",
+            "sp": "0"
+          },
+          "Side": "left"
+        },
+        "HeadConfig": {
+          "hp": "0.0",
+          "ht": "0.0"
+        },
+        "TorsoConfig": "0.0"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "bowl_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.864407",
+              "y": "0.465367",
+              "z": "0.88"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "-0.8771621",
+              "w": "0.4801944"
+            }
+          }
+        },
+        "ObjectModelId": "bowl_high"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "box_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.79401",
+              "y": "0.437124",
+              "z": "1.23"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0.000773",
+              "w": "0.9999997"
+            }
+          }
+        },
+        "ObjectModelId": "box1"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "box_2",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.857637",
+              "y": "0.224759",
+              "z": "1.28"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0.1868297",
+              "w": "0.9823923"
+            }
+          }
+        },
+        "ObjectModelId": "box2"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "cabinet_2",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.89929",
+              "y": "0.364606",
+              "z": "1.125"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "-0.9940663",
+              "w": "0.1087757"
+            }
+          }
+        },
+        "ObjectModelId": "cabinet_no_door"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "table_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.783032",
+              "y": "-0.839718",
+              "z": "0"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "-0.3645756",
+              "w": "0.9311738"
+            }
+          }
+        },
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "table_2",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "1.08677",
+              "y": "0.434374",
+              "z": "0"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "-0.6187692",
+              "w": "0.7855728"
+            }
+          }
+        },
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "jar_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.900311",
+              "y": "0.361555",
+              "z": "1.28"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0.9971398",
+              "w": "0.0755792"
+            }
+          }
+        },
+        "ObjectModelId": "jar"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "jar_1_lid",
+        "ObjectModelId": "jar_lid"
+      }
+    }
+  ]
+}

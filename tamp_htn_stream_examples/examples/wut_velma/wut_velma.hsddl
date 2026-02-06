@@ -1,0 +1,916 @@
+# TODO: add author and license
+
+(define (domain wut_velma)
+  (:requirements
+    :negative-preconditions
+    :hierarchy
+    :typing
+    :method-preconditions
+    :streams
+    :existential-quantification
+  )
+
+  (:types
+    Volume - object
+    ObjectId - object
+    ResourceId - ObjectId
+    GraspId - object
+    SidePref - object
+    Side - SidePref
+    Approaches - object
+    JointTraj - object
+    GraspTraj - object
+    ConfA - object
+    ConfH - object
+    ConfG - object
+    ConfT - object
+
+    SomePose - object
+    Pose - SomePose
+    Placement - SomePose
+  )
+
+  (:common_predicates
+    (GraspedSdGr ?obj - ObjectId ?sd - Side ?gr - GraspId)
+    (AtConfA ?sd - Side ?q - ConfA)     # arm at side ?sd is at configuration ?q
+    (AtConfT ?q - ConfT)                # torso is at configuration ?q
+    (AtConfH ?q - ConfH)                # head is at configuration ?q
+    (AtConfG ?sd - Side ?q - ConfG)     # gripper at side ?sd is at configuration ?q
+    (AtPose ?obj - ObjectId ?p - Pose)
+
+    # Reservation of space
+    (KeepFree ?vol - Volume ?id - ResourceId)
+  )
+
+  (:extended_predicates
+    # Extended predicates
+    (MovObjClear ?vol - Volume)
+    (OtherArmTucked ?sd - Side)
+    #(SideGood ?sd - Side ?p - Pose)
+    #(SideBad ?sd - Side ?p - Pose)
+    (Picked ?obj - ObjectId)
+    (CanPlaceAt ?obj - ObjectId ?p - Placement)
+    (TrajBegin ?tr - JointTraj ?sd - Side ?q - ConfA ?qt - ConfT)
+    (TrajEnd ?tr - JointTraj ?sd - Side ?q - ConfA ?qt - ConfT)
+    (GraspTrajBegin ?tr - GraspTraj ?sd - Side ?q - ConfA ?qt - ConfT)
+    (GraspTrajEnd ?tr - GraspTraj ?sd - Side ?q - ConfA ?qt - ConfT)
+
+    # TODO: move to derived (from extended)
+    (ObjSideGood ?sd - Side ?obj - ObjectId)
+    (ObjSideBad ?sd - Side ?obj - ObjectId)
+  )
+
+  (:derived-predicate GraspedSd
+    :parameters (?ob - ObjectId ?sde - Side)
+    :derivation (exists (?gr - GraspId) (GraspedSdGr ?ob ?sde ?gr))
+  )
+
+  (:derived-predicate Grasped
+    :parameters (?object - ObjectId)
+    :derivation (exists (?side - Side) (GraspedSd ?object ?side))
+  )
+
+  (:derived-predicate GripperOccupied
+    :parameters (?side - Side)
+    :derivation (exists (?obj - ObjectId) (GraspedSd ?obj ?side))
+  )
+
+  (:derived-predicate GripperFree
+    :parameters (?side - Side)
+    :derivation (not (GripperOccupied ?side))
+  )
+
+
+####################################################################################################
+# Tasks ############################################################################################
+####################################################################################################
+
+  (:task grasp
+    :parameters (?obj - ObjectId ?sd - Side ?gr - GraspId
+                  ?q_gr - ConfA ?qt_gr - ConfT)
+  )
+  (:task pick
+    :parameters (?obj - ObjectId ?gr - GraspId ?sd - Side
+                  ?q - ConfA ?qt - ConfT)
+  )
+  (:task place
+    :parameters (?obj - ObjectId)
+  )
+  (:task placeAt
+    :parameters (?obj - ObjectId ?p - Placement)
+  )
+  (:task closeGr
+    :parameters (?sd - Side)
+  )
+  (:task moveTo
+    :parameters (?sd - Side ?q - ConfA ?qt - ConfT)
+  )
+  (:task tuckOArm
+    :parameters (?sd - Side)
+  )
+  (:task lookAt
+    :parameters (?pt - SomePose)
+  )
+  (:task clear
+    :parameters (?vol - Volume)
+  )
+  (:task regraspSd
+    :parameters (?obj - ObjectId ?sd - Side)
+  )
+  (:task tkTopSd
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd - Side)
+  )
+  (:task tkTopSdGr
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd - Side ?gr - GraspId
+                  ?ee_gr - Pose)
+  )
+  (:task takeSd
+    :parameters (?obj - ObjectId ?sd - Side)
+  )
+  (:task pour
+    :parameters (?src ?dst - ObjectId)
+  )
+  (:task pourAt
+    :parameters (?src ?dst - ObjectId ?vol - Volume
+                  ?sd - Side)
+  )
+  (:task tilt
+    :parameters (?src ?dst - ObjectId)
+  )
+
+####################################################################################################
+# Methods ##########################################################################################
+####################################################################################################
+
+#
+# clear
+#
+  (:method m_clear_a
+    :parameters (?vol - Volume)
+    :task (clear ?vol)
+    :precondition (MovObjClear ?vol)
+    :ordered-tasks ()
+  )
+
+  (:method m_clear_b
+    :parameters (?vol - Volume
+                ?obj - ObjectId ?ap - Approaches ?vol_id - ResourceId
+                ?p_obj - Pose
+                ?sd - Side
+                ?p - Placement)
+    :task (clear ?vol)
+    :precondition (not (MovObjClear ?vol))
+    :ordered-tasks (and
+      (tkTopSd ?obj ?ap ?sd)
+      (pResVol ?vol ?vol_id)
+      (place ?obj)
+      (pRelVol ?vol ?vol_id)
+      (clear ?vol)
+    )
+    :ordered-streams (and
+      (GenClear :inputs (?vol) :outputs (?obj))
+      (GenObjectCurrentPose :inputs (?obj) :outputs (?p_obj))
+      (GenManipSide :inputs (?p_obj) :outputs (?sd))
+      (GenApproaches :inputs (?obj ?p_obj) :outputs (?ap))
+      (GenResourceId :outputs (?vol_id))
+    )
+  )
+
+#
+# regraspSd
+#
+  (:method m_regraspSd
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd ?sd0 - Side
+                ?p - Placement ?gr0 - GraspId)
+    :task (regraspSd ?obj ?sd)
+    :ordered-tasks (and
+      (placeAt ?obj ?p)
+      (tkTopSd ?obj ?ap ?sd)
+    )
+    :ordered-streams (and
+      (GenCurrentGrasp :inputs (?obj) :outputs (?sd0 ?gr0))
+      (GenPlace :inputs (?obj ?sd0 ?sd) :outputs (?p))
+      (GenApproaches :inputs (?obj ?p) :outputs (?ap))
+    )
+  )
+
+#
+# tkTopSd
+# - no regrasping
+# - no clearing
+#
+  (:method m_tkTopSd
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd - Side ?gr - GraspId
+                  ?ee_gr - Pose)
+    :task (tkTopSd ?obj ?ap ?sd)
+    :ordered-tasks (and
+      (tkTopSdGr ?obj ?ap ?sd ?gr ?ee_gr)
+    )
+    :ordered-streams (and
+      (GenGraspSdCl :inputs (?obj ?sd ?ap) :outputs (?gr ?ee_gr))
+    )
+  )
+
+#
+# tkTopSdGr
+#
+  (:method m_tkTopSdGr_a
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd - Side ?gr - GraspId
+                ?qt2 - ConfT ?q_gr - ConfA ?ee_gr - Pose
+                ?qh - ConfG)
+    :task (tkTopSdGr ?obj ?ap ?sd ?gr ?ee_gr)
+    :precondition (and (not (Grasped ?obj)) (GripperFree ?sd))
+    :ordered-tasks (and
+      (grasp ?obj ?sd ?gr ?q_gr ?qt2)
+      (pick ?obj ?gr ?sd ?q_gr ?qt2)
+    )
+    :ordered-streams (and
+      (GenPregraspHandConfig :inputs (?obj ?gr ?sd) :outputs (?qh))
+      (GenIk :inputs (?ee_gr ?sd ?obj ?qh) :outputs (?q_gr ?qt2))
+    )
+  )
+
+  (:method m_tkTopSdGr_b
+    :parameters (?obj ?obj2 - ObjectId ?ap - Approaches ?sd - Side
+                ?gr ?gr2 - GraspId ?qt2 - ConfT ?q_gr - ConfA
+                ?gr_vol - Volume ?vol_id - ResourceId ?ee_gr - Pose
+                ?qh - ConfG)
+    :task (tkTopSdGr ?obj ?ap ?sd ?gr ?ee_gr)
+    :precondition (and (not (Grasped ?obj)) (not (GripperFree ?sd)))
+    :ordered-tasks (and
+      (pResVol ?gr_vol ?vol_id)
+      (place ?obj2)
+      (pRelVol ?gr_vol ?vol_id)
+      (grasp ?obj ?sd ?gr ?q_gr ?qt2)
+      (pick ?obj ?gr ?sd ?q_gr ?qt2)
+    )
+    :ordered-streams (and
+      (GenPregraspHandConfig :inputs (?obj ?gr ?sd) :outputs (?qh))
+      (GenGraspReservedSpace :inputs (?obj ?sd ?gr ?ee_gr) :outputs (?gr_vol))
+      (GenIk :inputs (?ee_gr ?sd ?obj ?qh) :outputs (?q_gr ?qt2))
+      (GenResourceId :outputs (?vol_id))
+      (GenCurrentGraspAtSide :inputs (?sd) :outputs (?obj2 ?gr2))
+    )
+  )
+
+#
+# takeSd
+#
+  (:method m_takeSd_a
+    :parameters (?obj - ObjectId ?sd - Side)
+    :task (takeSd ?obj ?sd)
+    :precondition (and (GraspedSd ?obj ?sd) (Picked ?obj))
+    :ordered-tasks ()
+  )
+
+  (:method m_takeSd_b
+    :parameters (?obj - ObjectId ?sd ?sd2 - Side
+                  ?q - ConfA ?qt - ConfT ?gr - GraspId)
+    :task (takeSd ?obj ?sd)
+    :precondition (and (GraspedSd ?obj ?sd) (not (Picked ?obj)))
+    :ordered-tasks (and
+      (pick ?obj ?gr ?sd ?q ?qt)
+    )
+    :ordered-streams (and
+      (GenCurrentConfAT :inputs (?sd) :outputs (?q ?qt))
+      (GenCurrentGrasp :inputs (?obj) :outputs (?sd2 ?gr))
+    )
+  )
+
+  (:method m_takeSd_c
+    :parameters (?obj - ObjectId
+                  ?q - ConfA ?qt - ConfT ?gr - GraspId ?sd ?sd2 - Side)
+    :task (takeSd ?obj ?sd)
+    :precondition (and (Grasped ?obj) (not (GraspedSd ?obj ?sd)))
+    :ordered-tasks (and
+      (pick ?obj ?gr ?sd2 ?q ?qt)
+      (regraspSd ?obj ?sd)
+    )
+    :ordered-streams (and
+      (GenCurrentConfAT :inputs (?sd) :outputs (?q ?qt))
+      (GenCurrentGrasp :inputs (?obj) :outputs (?sd2 ?gr))
+    )
+  )
+
+  (:method m_takeSd_d
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd - Side
+                  ?gr_vol - Volume
+                  ?p_obj ?ee_gr - Pose ?gr - GraspId)
+    :task (takeSd ?obj ?sd)
+    :precondition (and (ObjSideGood ?sd ?obj) (not (Grasped ?obj)))
+    :ordered-tasks (and
+      (clear ?gr_vol)
+      (tkTopSdGr ?obj ?ap ?sd ?gr ?ee_gr)
+    )
+    :ordered-streams (and
+      (GenObjectCurrentPose :inputs (?obj) :outputs (?p_obj))
+      (GenApproaches :inputs (?obj ?p_obj) :outputs (?ap))
+      (GenGraspSd :inputs (?obj ?sd ?ap) :outputs (?gr ?ee_gr))
+      (GenGraspReservedSpace :inputs (?obj ?sd ?gr ?ee_gr) :outputs (?gr_vol))
+    )
+  )
+
+  (:method m_takeSd_e
+    :parameters (?obj - ObjectId ?ap - Approaches ?sd ?sd2 - Side
+                  ?gr_vol - Volume
+                  ?p_obj - Pose ?gr - GraspId ?ee_gr - Pose)
+    :task (takeSd ?obj ?sd)
+    :precondition (and (ObjSideBad ?sd ?obj) (not (Grasped ?obj)))
+    :ordered-tasks (and
+      (clear ?gr_vol)
+      (takeSd ?obj ?sd2)
+      (regraspSd ?obj ?sd)
+    )
+    :ordered-streams (and
+      (GenObjectCurrentPose :inputs (?obj) :outputs (?p_obj))
+      (GenApproaches :inputs (?obj ?p_obj) :outputs (?ap))
+      (GenOtherSide :inputs (?sd) :outputs (?sd2))
+      (GenGraspSd :inputs (?obj ?sd2 ?ap) :outputs (?gr ?ee_gr))
+      (GenGraspReservedSpace :inputs (?obj ?sd2 ?gr ?ee_gr) :outputs (?gr_vol))
+    )
+  )
+
+  # Pick the grasped object
+  (:method m_pick_a
+    :parameters (?obj - ObjectId ?gr - GraspId ?sd - Side
+                  ?q - ConfA ?qt - ConfT)
+    :task (pick ?obj ?gr ?sd ?q ?qt)
+    :precondition (and (Grasped ?obj) (Picked ?obj))
+    :ordered-tasks ()
+  )
+
+  # Pick the grasped object
+  (:method m_pick_b
+    :parameters (?obj - ObjectId ?gr - GraspId ?sd - Side
+                  ?tr - JointTraj ?q ?q2 - ConfA ?qt - ConfT ?p_ee - Pose)
+    :task (pick ?obj ?gr ?sd ?q ?qt)
+    :precondition (and (Grasped ?obj) (not (Picked ?obj)))
+    :ordered-tasks (and
+      (pMvBody ?tr ?sd ?q ?qt ?q2 ?qt)
+      (lookAt ?p_ee)
+    )
+    :ordered-streams (and
+      (GenPickTraj :inputs (?obj ?gr ?sd ?q ?qt) :outputs (?tr ?q2))
+      (GenFk :inputs (?q2 ?qt ?sd) :outputs (?p_ee))
+    )
+  )
+
+  (:method m_grasp
+    :parameters (?obj - ObjectId ?gr - GraspId ?sd - Side
+        ?q_gr - ConfA ?tr_ugr ?tr_gr - GraspTraj ?p_obj - Pose
+        ?q_pgr - ConfA ?qg1 ?qg2 - ConfG ?qt_gr - ConfT)
+    :task (grasp ?obj ?sd ?gr ?q_gr ?qt_gr)
+    :precondition (and (not (Grasped ?obj)) (GripperFree ?sd))
+    :ordered-tasks (and
+      (closeGr ?sd)
+      (tuckOArm ?sd)
+      (moveTo ?sd ?q_pgr ?qt_gr)
+      (lookAt ?p_obj)
+      (pGrasp ?obj ?sd ?gr ?tr_gr ?q_pgr ?qt_gr ?qg1 ?q_gr ?qt_gr ?qg2 ?p_obj)
+    )
+    :ordered-streams (and
+      (GenClosedG :inputs (?sd) :outputs (?qg1))
+      (GenObjectCurrentPose :inputs (?obj) :outputs (?p_obj))
+      (GenUngraspTraj :inputs (?obj ?p_obj ?gr ?sd ?q_gr ?qt_gr)
+                    :outputs (?tr_ugr ?q_pgr))
+      (GenGraspTrajRev :inputs (?tr_ugr ?sd ?q_gr ?q_pgr ?qt_gr) :outputs (?tr_gr))
+      (GenGraspHandConfig :inputs (?obj ?gr ?sd) :outputs (?qg2))
+    )
+  )
+
+  (:method m_place
+    :parameters (?obj - ObjectId ?p - Placement ?gr - GraspId ?sd - Side ?sd_any - SidePref)
+    :task (place ?obj)
+    :precondition (Grasped ?obj)
+    #:domain (and (CurrentGrasp ?obj ?sd ?gr) (PutDownPose ?obj ?gr ?sd ?p))  # TODO: use this instead of ordered-streams
+    :ordered-tasks (and
+      (placeAt ?obj ?p)
+    )
+    :ordered-streams (and
+      (GenCurrentGrasp :inputs (?obj) :outputs (?sd ?gr))
+      (GenAnySidePref :outputs (?sd_any))
+      (GenPlace :inputs (?obj ?sd ?sd_any) :outputs (?p))
+    )
+  )
+
+  # This method is only used to blame parameter ?p
+  (:method m_placeAt_a
+    :parameters (?obj - ObjectId ?p - Placement)
+    :task (placeAt ?obj ?p)
+    :precondition (and (Grasped ?obj) (not (CanPlaceAt ?obj ?p)))
+    :ordered-tasks ()
+  )
+
+  (:method m_placeAt_b
+    :parameters (?obj - ObjectId
+        ?p - Placement
+        ?p_obj ?ee_gr - Pose
+        ?tr1 ?tr_take - JointTraj
+        ?tr2 - GraspTraj
+        ?gr - GraspId
+        ?sd - Side
+        ?q2 ?q_gr ?q_st - ConfA
+        ?qt2 - ConfT
+        ?qh1 ?qh2 - ConfG
+        ?ap - Approaches)
+    :task (placeAt ?obj ?p)
+    :precondition (and (Grasped ?obj) (CanPlaceAt ?obj ?p))
+    :ordered-tasks (and
+      (tuckOArm ?sd)
+      (moveTo ?sd ?q_st ?qt2)
+      (lookAt ?p)
+      (pMvBody ?tr1 ?sd ?q_st ?qt2 ?q_gr ?qt2)
+      (lookAt ?p)
+      (pUngrasp ?obj ?sd ?gr ?tr2 ?q_gr ?qt2 ?q2 ?qt2 ?qh1 ?qh2 ?p_obj)
+    )
+    :ordered-streams (and
+      (GenCurrentGrasp :inputs (?obj) :outputs (?sd ?gr))
+      (GenApproaches :inputs (?obj ?p) :outputs (?ap))
+      (GenUngraspPose :inputs (?obj ?sd ?gr ?ap ?p) :outputs (?p_obj ?ee_gr))
+      (GenCurrentConfG :inputs (?sd) :outputs (?qh1))
+      (GenPregraspHandConfig :inputs (?obj ?gr ?sd) :outputs (?qh2))
+      (GenIk :inputs (?ee_gr ?sd ?obj ?qh1) :outputs (?q_gr ?qt2))
+      (GenUngraspTraj :inputs (?obj ?p_obj ?gr ?sd ?q_gr ?qt2)
+                      :outputs (?tr2 ?q2))
+      (GenPickTraj :inputs (?obj ?gr ?sd ?q_gr ?qt2)
+                    :outputs (?tr_take ?q_st))
+      (GenTrajRev :inputs (?tr_take ?sd ?q_gr ?qt2 ?q_st ?qt2) :outputs (?tr1))
+    )
+  )
+
+  (:method m_closeGr_a
+    :parameters (?sd - Side)
+    :task (closeGr ?sd)
+    :precondition (not (GripperFree ?sd))
+    # Do nothing
+    :ordered-tasks ()
+  )
+
+  (:method m_closeGr_b
+    :parameters (?sd - Side ?qg1 ?qg2 - ConfG)
+    :task (closeGr ?sd)
+    :precondition (GripperFree ?sd)
+    :ordered-tasks (and
+      (pCloseGr ?sd ?qg1 ?qg2)
+    )
+    :ordered-streams (and
+      (GenCurrentConfG :inputs (?sd) :outputs (?qg1))
+      (GenClosedG :inputs (?sd) :outputs (?qg2))
+    )
+  )
+
+  (:method m_moveTo
+    :parameters ( ?q1 ?q - ConfA
+                  ?qt1 ?qt - ConfT
+                  ?qg - ConfG
+                  ?tr - JointTraj
+                  ?sd - Side)
+    :task (moveTo ?sd ?q ?qt)
+    :ordered-tasks (and
+      (pMvBody ?tr ?sd ?q1 ?qt1 ?q ?qt)
+    )
+    :ordered-streams (and
+      (GenCurrentConfAT :inputs (?sd) :outputs (?q1 ?qt1))
+      (GenCurrentConfG :inputs (?sd) :outputs (?qg))
+      (GenTraj :inputs (?sd ?q1 ?qt1 ?q ?qt ?qg) :outputs (?tr))
+    )
+  )
+
+  # The arm is already tucked, do nothing
+  (:method m_tuckOArm_a
+    :parameters (?sd - Side)
+    :task (tuckOArm ?sd)
+    :precondition (OtherArmTucked ?sd)
+    :ordered-tasks ()
+  )
+
+  (:method m_tuckOArm_b
+    :parameters (?sd ?sd2 - Side ?tr - JointTraj ?q1 ?q2 - ConfA ?qt - ConfT
+                ?qg - ConfG)
+    :task (tuckOArm ?sd)
+    :precondition (and (not (OtherArmTucked ?sd)))
+    :ordered-tasks (and
+      (closeGr ?sd2)
+      (pMvBody ?tr ?sd2 ?q1 ?qt ?q2 ?qt)
+    )
+    :ordered-streams (and
+      (GenOtherSide :inputs (?sd) :outputs (?sd2))
+      (GenCurrentConfAT :inputs (?sd2) :outputs (?q1 ?qt))
+      (GenClosedG :inputs (?sd2) :outputs (?qg))
+      (GenTuckArmTraj :inputs (?sd2 ?q1 ?qt ?qg) :outputs (?tr ?q2))
+    )
+  )
+
+  # Try to pour to object ?dst at its current pose
+  (:method m_pour_a
+    :parameters (?src ?dst - ObjectId
+        ?p_dst - Pose ?sd - Side ?vol - Volume)
+    :task (pour ?src ?dst)
+    #:precondition (and (HasHole ?src) (HasHole ?dst)
+    #                    (not (Grasped ?dst)))
+    :precondition (not (Grasped ?dst))
+    :ordered-tasks (and
+      (pourAt ?src ?dst ?vol ?sd)
+    )
+    :ordered-streams (and
+      (GenObjectCurrentPose :inputs (?dst) :outputs (?p_dst))
+      (GenManipSide :inputs (?p_dst) :outputs (?sd))
+      (GenPourSpace :inputs (?dst ?p_dst) :outputs (?vol))
+    )
+  )
+
+  (:method m_pour_b
+    :parameters (?src ?dst - ObjectId
+        ?p_dst - Placement ?sd - Side
+        ?vol - Volume)
+    :task (pour ?src ?dst)
+    #:precondition (and (Open ?src) (Open ?dst) (Grasped ?dst))
+    #:precondition (and (HasHole ?src) (HasHole ?dst) (Grasped ?dst))
+    :precondition (Grasped ?dst)
+    :ordered-tasks (and
+      (placeAt ?dst ?p_dst)
+      (pourAt ?src ?dst ?vol ?sd)
+    )
+    :ordered-streams (and
+      (GenPourPlace :inputs (?dst) :outputs (?p_dst ?vol))
+      (GenManipSide :inputs (?p_dst) :outputs (?sd))
+    )
+  )
+
+  (:method m_pour_c
+    :parameters (?src ?dst - ObjectId
+        ?p_dst - Placement ?sd - Side
+        ?vol - Volume ?vol_id - ResourceId)
+    :task (pour ?src ?dst)
+    #:precondition (and (HasHole ?src) (HasHole ?dst)
+    #                    (not (Grasped ?dst)))
+    :precondition (not (Grasped ?dst))
+    :ordered-tasks (and
+      (pResVol ?vol ?vol_id)
+      (takeSd ?dst ?sd)
+      (pRelVol ?vol ?vol_id)
+      (placeAt ?dst ?p_dst)
+      (pourAt ?src ?dst ?vol ?sd)
+    )
+    :ordered-streams (and
+      (GenPourPlace :inputs (?dst) :outputs (?p_dst ?vol))
+      (GenManipSide :inputs (?p_dst) :outputs (?sd))
+      (GenResourceId :outputs (?vol_id))
+    )
+  )
+
+  (:method m_pourAt
+    :parameters (?src ?dst - ObjectId
+        ?sd - Side
+        ?vol - Volume ?vol_id - ResourceId)
+    :task (pourAt ?src ?dst ?vol ?sd)
+    :ordered-tasks (and
+      (pResVol ?vol ?vol_id)
+      (takeSd ?src ?sd)
+      (tilt ?src ?dst)
+      (pRelVol ?vol ?vol_id)
+    )
+    :ordered-streams (and
+      (GenResourceId :outputs (?vol_id))
+    )
+  )
+
+  # TODO: add proper preconditions: src must be grasped, dst must be placed in proper pose, etc.
+  (:method m_tilt
+    :parameters (?src ?dst - ObjectId ?sd - Side
+        ?q1 ?q2 - ConfA ?qt1 ?qt2 - ConfT ?p_dst - Pose
+        ?tr1 ?tr2 - JointTraj
+        ?gr - GraspId)
+    :task (tilt ?src ?dst)
+    #:precondition (and (HasHole ?src) (HasHole ?dst) (Grasped ?src))
+    :precondition (Grasped ?src)
+    :ordered-tasks (and
+      (tuckOArm ?sd)
+      (moveTo ?sd ?q1 ?qt1)
+      (lookAt ?p_dst)
+      (move1 (pMvBody ?tr1 ?sd ?q1 ?qt1 ?q2 ?qt2))
+      (move2 (pMvBody ?tr2 ?sd ?q2 ?qt2 ?q1 ?qt1))
+    )
+    :ordered-streams (and
+      (GenCurrentGrasp :inputs (?src) :outputs (?sd ?gr))
+      (GenObjectCurrentPose :inputs (?dst) :outputs (?p_dst))
+      (GenPourTraj :inputs (?src ?sd ?gr ?dst ?p_dst) :outputs (?tr1 ?q1 ?qt1 ?q2 ?qt2))
+      (GenTrajRev :inputs (?tr1 ?sd ?q1 ?qt1 ?q2 ?qt2) :outputs (?tr2))
+    )
+  )
+
+  (:method m_lookAt
+    :parameters (?pt - SomePose ?qt - ConfT ?qn1 ?qn2 - ConfH)
+    :task (lookAt ?pt)
+    :ordered-tasks (and
+      (pMvHead ?qn1 ?qn2)
+    )
+    :ordered-streams (and
+      (GenCurrentConfT :outputs (?qt))
+      (GenCurrentConfH :outputs (?qn1))
+      (GenLookAt :inputs (?pt ?qt) :outputs (?qn2))
+    )
+  )
+
+####################################################################################################
+# Actions ##########################################################################################
+####################################################################################################
+
+  (:action pMvHead
+    :parameters (?q1 ?q2 - ConfH)
+    :precondition (AtConfH ?q1)
+    :effect (and (not (AtConfH ?q1)) (AtConfH ?q2))
+  )
+
+  (:action pCloseGr
+    :parameters (?sd - Side ?qg1 ?qg2 - ConfG)
+    :precondition (and (GripperFree ?sd) (AtConfG ?sd ?qg1))
+    :effect (and (not (AtConfG ?sd ?qg1)) (AtConfG ?sd ?qg2))
+  )
+
+  (:action pMvBody
+    :parameters ( ?tr - JointTraj
+                  ?sd - Side
+                  ?q1 - ConfA
+                  ?qt1 - ConfT
+                  ?q2 - ConfA
+                  ?qt2 - ConfT)
+    :precondition (and (AtConfA ?sd ?q1) (AtConfT ?qt1) (TrajBegin ?tr ?sd ?q1 ?qt1)
+      (TrajEnd ?tr ?sd ?q2 ?qt2))
+    :effect (and (not (AtConfA ?sd ?q1)) (not (AtConfT ?qt1)) (AtConfA ?sd ?q2) (AtConfT ?qt2))
+  )
+
+  (:action pGrasp
+    :parameters (?obj - ObjectId ?sd - Side ?gr - GraspId ?tr - GraspTraj
+                  ?q1 - ConfA ?qt1 - ConfT ?qg1 - ConfG ?q2 - ConfA ?qt2 - ConfT ?qg2 - ConfG ?p - Pose)
+    :precondition (and (AtConfA ?sd ?q1) (AtConfT ?qt1) (GraspTrajBegin ?tr ?sd ?q1 ?qt1)
+                        (GraspTrajEnd ?tr ?sd ?q2 ?qt2)
+                        (AtConfG ?sd ?qg1) (AtPose ?obj ?p)
+    )
+    :effect (and
+      (not (AtPose ?obj ?p))
+      (GraspedSdGr ?obj ?sd ?gr)
+      (not (AtConfA ?sd ?q1)) (not (AtConfT ?qt1)) (AtConfA ?sd ?q2) (AtConfT ?qt2)
+      (not (AtConfG ?sd ?qg1)) (AtConfG ?sd ?qg2)
+    )
+  )
+
+  (:action pUngrasp
+    :parameters (?obj - ObjectId ?sd - Side ?gr - GraspId ?tr - GraspTraj
+                  ?q1 - ConfA ?qt1 - ConfT ?q2 - ConfA ?qt2 - ConfT ?qh1 ?qh2 - ConfG ?p - Pose)
+    :precondition (and (AtConfA ?sd ?q1) (AtConfT ?qt1) (GraspTrajBegin ?tr ?sd ?q1 ?qt1)
+                        (GraspTrajEnd ?tr ?sd ?q2 ?qt2)                                      #(GraspConf ?gr ?sd ?qh1)
+                        (GraspedSdGr ?obj ?sd ?gr)
+    )
+    :effect (and
+      (not (GraspedSdGr ?obj ?sd ?gr))
+      (AtPose ?obj ?p)
+      (not (AtConfA ?sd ?q1)) (not (AtConfT ?qt1)) (AtConfA ?sd ?q2) (AtConfT ?qt2)
+      (not (AtConfG ?sd ?qh1)) (AtConfG ?sd ?qh2)
+    )
+  )
+
+  (:action pResVol
+    :parameters (?vol - Volume ?id - ResourceId)
+    :effect (KeepFree ?vol ?id)
+  )
+
+  (:action pRelVol
+    :parameters (?vol - Volume ?id - ResourceId)
+    :effect (not (KeepFree ?vol ?id))
+  )
+
+####################################################################################################
+# Streams ##########################################################################################
+####################################################################################################
+
+  #
+  # Simple generators:
+  #
+
+  (:stream GenCurrentGrasp
+    :inputs (?obj - ObjectId)
+    :outputs (?sd - Side ?gr - GraspId)
+    :certified (and (GraspedSdGr ?obj ?sd ?gr))
+  )
+
+  (:stream GenCurrentGraspAtSide
+    :inputs (?sd - Side)
+    :outputs (?obj - ObjectId ?gr - GraspId)
+    :certified (and (GraspedSdGr ?obj ?sd ?gr))
+  )
+
+  (:stream GenCurrentConfAT
+    :inputs (?sd - Side)
+    :outputs (?q - ConfA ?qt - ConfT)
+    :certified (and (AtConfA ?sd ?q) (AtConfT ?qt))
+  )
+
+  (:stream GenCurrentConfT
+    :outputs (?qt - ConfT)
+    :certified (AtConfT ?qt)
+  )
+
+  (:stream GenCurrentConfH
+    :outputs (?q - ConfH)
+    :certified (AtConfH ?q)
+  )
+
+  (:stream GenCurrentConfG
+    :inputs (?sd - Side)
+    :outputs (?q - ConfG)
+    :certified (AtConfG ?sd ?q)
+  )
+
+  (:stream GenTrajRev
+    :inputs ( ?tr - JointTraj
+              ?sd - Side
+              ?q1 - ConfA
+              ?qt1 - ConfT
+              ?q2 - ConfA
+              ?qt2 - ConfT)
+    :domain (and (TrajBegin ?tr ?sd ?q1 ?qt1) (TrajEnd ?tr ?sd ?q2 ?qt2))
+    :outputs (?tr_rev - JointTraj)
+    :certified (and (TrajBegin ?tr_rev ?sd ?q2 ?qt2) (TrajEnd ?tr_rev ?sd ?q1 ?qt1))
+  )
+
+  (:stream GenObjectCurrentPose
+    :inputs (?obj - ObjectId)
+    :outputs (?p_obj - Pose)
+    :certified (and (AtPose ?obj ?p_obj))
+  )
+
+  #
+  # Complex generators:
+  #
+
+  (:stream GenClear
+    :inputs (?vol - Volume)
+    :outputs (?obj - ObjectId)
+  )
+
+  (:stream GenPickTraj
+    :inputs (?obj - ObjectId ?gr - GraspId ?sd - Side
+              ?q1 - ConfA ?qt - ConfT)
+    :outputs (?tr - JointTraj ?q2 - ConfA)
+    :certified (and (TrajBegin ?tr ?sd ?q1 ?qt) (TrajEnd ?tr ?sd ?q2 ?qt))
+    :relay (?q2 -> ?q1)
+  )
+
+  (:stream GenGraspSd
+    :inputs (?obj - ObjectId ?sd - Side ?ap - Approaches)
+    :outputs (?gr - GraspId ?p_ee - Pose)
+  )
+
+  (:stream GenGraspSdCl
+    :inputs (?obj - ObjectId ?sd - Side ?ap - Approaches)
+    :outputs (?gr - GraspId ?p_ee - Pose)
+  )
+
+  (:stream GenApproaches
+    :inputs (?obj - ObjectId ?p_obj - SomePose)
+    :outputs (?ap - Approaches)
+  )
+
+  (:stream GenUngraspTraj
+    :inputs ( ?obj - ObjectId
+              ?p_obj - Pose
+              ?gr - GraspId
+              ?sd - Side
+              ?q1 - ConfA
+              ?qt - ConfT)
+    :outputs (?tr - GraspTraj ?q2 - ConfA)
+    :certified (and (GraspTrajBegin ?tr ?sd ?q1 ?qt) (GraspTrajEnd ?tr ?sd ?q2 ?qt))
+    :relay (?q2 -> ?gr ?q2 -> ?q1)
+  )
+
+  (:stream GenGraspTrajRev
+    :inputs (?tr - GraspTraj
+            ?sd - Side
+            ?q1 ?q2 - ConfA
+            ?qt - ConfT)
+    :domain (and (GraspTrajBegin ?tr ?sd ?q1 ?qt) (GraspTrajEnd ?tr ?sd ?q2 ?qt))
+    :outputs (?tr_rev - GraspTraj)
+    :certified (and (GraspTrajBegin ?tr_rev ?sd ?q2 ?qt) (GraspTrajEnd ?tr ?sd ?q1 ?qt))
+  )
+
+  (:stream GenIk
+    :inputs (?p - Pose ?sd - Side ?obj - ObjectId
+              ?qh - ConfG)
+    :outputs (?q - ConfA ?qt - ConfT)
+    :relay (?q -> ?p)
+  )
+
+  (:stream GenGraspHandConfig
+    :inputs (?obj - ObjectId ?gr - GraspId ?sd - Side)
+    :outputs (?qg - ConfG)
+    :relay (?qg -> ?gr)
+  )
+
+  (:stream GenPregraspHandConfig
+    :inputs (?obj - ObjectId ?gr - GraspId ?sd - Side)
+    :outputs (?qg - ConfG)
+    :relay (?qg -> ?gr)
+  )
+
+  (:stream GenPlace
+    :inputs (?obj - ObjectId ?sd - Side ?sd2 - SidePref)
+    :outputs (?p - Placement)
+  )
+
+  (:stream GenPlaceSimple
+    :inputs (?obj - ObjectId)
+    :outputs (?p - Placement ?sd - Side)
+  )
+
+  (:stream GenTraj
+    :inputs ( ?sd - Side
+              ?q1 - ConfA
+              ?qt1 - ConfT
+              ?q2 - ConfA
+              ?qt2 - ConfT
+              ?qh - ConfG)
+    :outputs (?tr - JointTraj)
+    :certified (and (TrajBegin ?tr ?sd ?q1 ?qt1) (TrajEnd ?tr ?sd ?q2 ?qt2))
+  )
+
+  (:stream GenOtherSide
+    :inputs (?sd - Side)
+    :outputs (?sd2 - Side)
+    :certified (OtherSide ?sd ?sd2)
+    :relay (?sd2 -> ?sd)
+  )
+
+  (:stream GenTuckArmTraj
+    :inputs ( ?sd - Side
+              ?q1 - ConfA
+              ?qt - ConfT
+              ?qg - ConfG)
+    :outputs (?tr - JointTraj
+              ?q2 - ConfA)
+    :certified (and (TrajBegin ?tr ?sd ?q1 ?qt) (TrajEnd ?tr ?sd ?q2 ?qt))
+  )
+
+  (:stream GenPourPlace
+    :inputs (?dst - ObjectId)
+    :outputs (?p_obj - Placement ?vol - Volume)
+  )
+
+  (:stream GenUngraspPose
+    :inputs (?obj - ObjectId ?sd - Side ?gr - GraspId  ?ap - Approaches ?p - Placement)
+    :outputs (?p_obj ?p_ee - Pose)
+    :relay (?p_ee -> ?p ?p_ee -> ?gr ?p_obj -> ?p ?p_obj -> ?gr)
+  )
+
+  (:stream GenPourTraj
+    :inputs ( ?src - ObjectId
+              ?sd - Side
+              ?gr - GraspId
+              ?dst - ObjectId
+              ?p_dst - Pose)
+    #:domain (and (HasHole ?src) (HasHole ?dst))
+    :outputs (?tr - JointTraj ?q1 - ConfA ?qt1 - ConfT ?q2 - ConfA ?qt2 - ConfT)
+    :certified (and (TrajBegin ?tr ?sd ?q1 ?qt1) (TrajEnd ?tr ?sd ?q2 ?qt2))
+  )
+
+  (:stream GenLookAt
+    :inputs (?pt - SomePose ?qt - ConfT)
+    :outputs (?qn - ConfH)
+  )
+
+  (:stream GenFk
+    :inputs (?q - ConfA ?qt - ConfT ?sd - Side)
+    :outputs (?p_ee - Pose)
+    :relay (?p_ee -> ?q)
+  )
+
+  (:stream GenResourceId
+    :outputs (?res_id - ResourceId)
+  )
+
+  (:stream GenPourSpace
+    :inputs (?obj - ObjectId ?p - SomePose)
+    :outputs (?vol - Volume)
+    :relay (?vol -> ?p)
+  )
+
+  (:stream GenGraspReservedSpace
+    :inputs (?obj - ObjectId ?sd - Side ?gr - GraspId ?ee_gr - Pose)
+    :outputs (?gr_vol - Volume)
+    :relay (?gr_vol -> ?ee_gr ?gr_vol -> ?gr)
+  )
+
+  (:stream GenManipSide
+    :inputs (?p_obj - SomePose)
+    :outputs (?sd - Side)
+  )
+
+  (:stream GenAnySidePref
+    :outputs (?sd - SidePref)
+  )
+
+  (:stream GenClosedG
+    :inputs (?sd - Side)
+    :outputs (?qg - ConfG)
+  )
+)

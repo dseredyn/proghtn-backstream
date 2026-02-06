@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ROS2 MoveIt2 PlanningScene -> RViz2 (rosbridge)</title>
+
+  <!-- roslibjs -->
+  <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    label { display: flex; gap: 6px; align-items: center; }
+    input { padding: 6px 8px; width: 110px; }
+    button { padding: 10px 12px; cursor: pointer; }
+    #log { margin-top: 14px; padding: 12px; background:#111; color:#0f0; border-radius: 8px; white-space: pre-wrap; }
+    .hint { color:#444; margin-top: 6px; }
+  </style>
+</head>
+
+<body>
+  <state_info/>
+
+  <div class="row">
+    <button id="btnVisualizeState">Visualize state</button>
+    <button id="btnVisualizeGenerator">Visualize generator</button>
+  </div>
+
+  <task_network_parameters/>
+
+  <div id="log">[log]</div>
+
+<script>
+  let ros = null;
+  let visualizationStateTopic = null;
+  let visualizationGeneratorTopic = null;
+  let visualizationPrametersTopic = null;
+
+  const logEl = document.getElementById("log");
+  function log(msg) {
+    logEl.textContent += "\n" + msg;
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function connect() {
+    const url = "ws://localhost:9090"; //val("wsUrl");
+
+    ros = new ROSLIB.Ros(); //{ url });
+
+    ros.on("connection", () => {
+      log(`[OK] Connected to rosbridge: ${url}`);
+
+      visualizationStateTopic = new ROSLIB.Topic({
+        ros,
+        name: "/state_vis_marker_array",
+        messageType: "visualization_msgs/msg/MarkerArray"
+      });
+
+      visualizationGeneratorTopic = new ROSLIB.Topic({
+        ros,
+        name: "/generator_vis_marker_array",
+        messageType: "visualization_msgs/msg/MarkerArray"
+      });
+
+      paramMarkerArrayTopic = new ROSLIB.Topic({
+        ros,
+        name: "/parameters_vis_marker_array",
+        messageType: "visualization_msgs/msg/MarkerArray"
+      });
+
+      paramDisplayTrajectoryTopic = new ROSLIB.Topic({
+        ros,
+        name: "/parameters_vis_traj",
+        messageType: "moveit_msgs/msg/DisplayTrajectory"
+      });
+
+      paramDisplayRobotStateTopic = new ROSLIB.Topic({
+        ros,
+        name: "/parameters_vis_robot_state",
+        messageType: "moveit_msgs/msg/DisplayRobotState"
+      });
+
+      log("[OK] Publisher is ready on topic /planning_scene");
+    });
+
+    ros.on("error", (err) => log(`[ERR] Error: ${err}`));
+    ros.on("close", () => log("[WARN] Disconnected."));
+    ros.connect(url);
+  }
+
+  function disconnect() {
+    // if () planningSceneTopic.unadvertise?.();
+    if (ros) ros.close();
+    // planningSceneTopic = null;
+    ros = null;
+    log("[INFO] Disconnect()");
+  }
+
+  function publishVisualizeState() {
+    if (!visualizationStateTopic) return log("[ERR] Not connected: state markers.");
+
+    const msg_markers = new ROSLIB.Message({
+      markers: "<<<<markers_state>>>>"
+    });
+
+    visualizationStateTopic.publish(msg_markers);
+
+    const msg_robot_state = new ROSLIB.Message({
+      state: {
+        is_diff: true,
+        joint_state: {
+          name: "<<<<joint_names>>>>",
+          position: "<<<<joint_positions>>>>"
+        }
+      }
+    });
+
+    paramDisplayRobotStateTopic.publish(msg_robot_state)
+    log("[PUB] Visualized state");
+  }
+
+  function publishVisualizeGenerator() {
+    if (!visualizationGeneratorTopic) return log("[ERR] Not connected: generator.");
+
+    const msg = new ROSLIB.Message({
+      markers: "<<<<markers_generator>>>>"
+    });
+
+    visualizationGeneratorTopic.publish(msg);
+    log("[PUB] Visualized generator");
+  }
+
+  function publishVisualizeMarkerArray(markers) {
+    if (!paramMarkerArrayTopic) return log("[ERR] Not connected: parameters.");
+
+    const msg_marker_array = new ROSLIB.Message({
+      markers: markers
+    });
+    paramMarkerArrayTopic.publish(msg_marker_array);
+
+    // log("[PUB] Visualized parameters");
+    log(`[PUB] Visualized parameters; markers: ${markers.length}`);
+    log(`${markers}`);
+  }
+
+  function publishVisualizeRobotState(vis_robot_state) {
+    if (!paramDisplayRobotStateTopic) return log("[ERR] Not connected: parameters.");
+
+    const msg_robot_state = new ROSLIB.Message({
+      state: vis_robot_state
+    });
+    paramDisplayRobotStateTopic.publish(msg_robot_state);
+
+    // log("[PUB] Visualized parameters");
+    log("[PUB] Visualized parameters: robot state");
+  }
+
+  function publishVisualizeTrajectory(vis_trajectory) {
+    if (!paramDisplayTrajectoryTopic) return log("[ERR] Not connected: parameters.");
+
+    const msg_traj = new ROSLIB.Message(vis_trajectory);
+    paramDisplayTrajectoryTopic.publish(msg_traj);
+
+    // log("[PUB] Visualized parameters");
+    log("[PUB] Visualized parameters: robot state");
+  }
+
+  connect();
+
+  const button_id_list = "<button_id_list>";
+  const all_markers = "<markers_list_list>";
+  const output_types = "<output_types_list>";
+
+  for (let i = 0; i < button_id_list.length; i++) {
+    if (output_types[i] == 'MarkerArray') {
+      document.getElementById(button_id_list[i]).onclick = function() {publishVisualizeMarkerArray(all_markers[i]);};
+    }
+    if (output_types[i] == 'DisplayRobotState') {
+      document.getElementById(button_id_list[i]).onclick = function() {publishVisualizeRobotState(all_markers[i]);};
+    }
+    if (output_types[i] == 'DisplayTrajectory') {
+      document.getElementById(button_id_list[i]).onclick = function() {publishVisualizeTrajectory(all_markers[i]);};
+    }
+  }
+
+  document.getElementById("btnVisualizeState").onclick = publishVisualizeState;
+  document.getElementById("btnVisualizeGenerator").onclick = publishVisualizeGenerator;
+
+  log("[INFO] Ready. Click \"Visualize state\".");
+</script>
+</body>
+</html>

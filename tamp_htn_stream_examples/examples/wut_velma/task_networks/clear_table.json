@@ -1,0 +1,60 @@
+{
+  "Tasks": [
+    {
+      "Args": [
+        "?vol"
+      ],
+      "Class": "clear",
+      "Id": "clear",
+      "type": "task_ref"
+    }
+  ],
+  "type": "TaskNetwork",
+  "ParameterGroundings": {
+    "?vol": {
+      "type": "data",
+      "Value": {
+        "col_shapes": [
+          {
+            "type": "PrimitiveShape",
+            "shape_type": "box",
+            "size": [
+              0.9,
+              0.9,
+              0.4
+            ],
+            "T": {
+              "p": {
+                "x": "1.0",
+                "y": "0.4",
+                "z": "0.975"
+              },
+              "M": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            "Tint": {
+              "p": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "M": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            "frame_id": "world"
+          }
+        ],
+        "ign_obj_list": []
+      },
+      "ValueType": "Volume"
+    }
+  }
+}

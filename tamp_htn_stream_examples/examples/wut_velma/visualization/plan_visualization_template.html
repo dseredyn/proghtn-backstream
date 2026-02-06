@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ROS2 MoveIt2 PlanningScene -> RViz2 (rosbridge)</title>
+
+  <!-- roslibjs -->
+  <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    label { display: flex; gap: 6px; align-items: center; }
+    input { padding: 6px 8px; width: 110px; }
+    button { padding: 10px 12px; cursor: pointer; }
+    #log { margin-top: 14px; padding: 12px; background:#111; color:#0f0; border-radius: 8px; white-space: pre-wrap; }
+    .hint { color:#444; margin-top: 6px; }
+  </style>
+</head>
+
+<body>
+
+  <div class="row">
+    <button id="btnVisualizeState">Visualize initial state</button>
+    <button id="btnVisualizePlan">Visualize plan</button>
+  </div>
+
+  <div id="log">[log]</div>
+
+<script>
+  let ros = null;
+  let visualizationStateTopic = null;
+  let paramDisplayTrajectoryTopic = null;
+
+  const logEl = document.getElementById("log");
+  function log(msg) {
+    logEl.textContent += "\n" + msg;
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function connect() {
+    const url = "ws://localhost:9090"; //val("wsUrl");
+
+    ros = new ROSLIB.Ros(); //{ url });
+
+    ros.on("connection", () => {
+      log(`[OK] Connected to rosbridge: ${url}`);
+
+      visualizationStateTopic = new ROSLIB.Topic({
+        ros,
+        name: "/state_vis_marker_array",
+        messageType: "visualization_msgs/msg/MarkerArray"
+      });
+
+      paramDisplayRobotStateTopic = new ROSLIB.Topic({
+        ros,
+        name: "/parameters_vis_robot_state",
+        messageType: "moveit_msgs/msg/DisplayRobotState"
+      });
+
+      log("[OK] Publisher is ready on topic /parameters_vis_traj");
+    });
+
+    ros.on("error", (err) => log(`[ERR] Error: ${err}`));
+    ros.on("close", () => log("[WARN] Disconnected."));
+    ros.connect(url);
+  }
+
+  function disconnect() {
+    if (planningSceneTopic) planningSceneTopic.unadvertise?.();
+    if (ros) ros.close();
+    planningSceneTopic = null;
+    ros = null;
+    log("[INFO] Disconnect()");
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  let steps = "<<<<steps>>>>";
+
+    async function publishVisualizeState() {
+    if (!paramDisplayRobotStateTopic) return log("[ERR] Not connected: parameters.");
+    if (!visualizationStateTopic) return log("[ERR] Not connected: parameters.");
+
+    let displayed_robot_state = false;
+    let displeyed_env_state = false;
+    for (let i = 0; i < steps.length; i++) {
+      if (displeyed_env_state && displayed_robot_state) {
+        break;
+      }
+      if (steps[i][0] == 'DisplayRobotState') {
+        if (displayed_robot_state) {
+          continue;
+        }
+        displayed_robot_state = true;
+        // steps[i] = ['DisplayRobotState', sleep_time, position ]
+        const msg_robot_state = new ROSLIB.Message({
+          state: {
+            joint_state: {
+              header: { stamp: {sec: 0, nanosec: 0}, frame_id: ""},
+              name: "<<<<joint_names>>>>",
+              position: steps[i][2],
+              velocity: [],
+              effort: []},
+            multi_dof_joint_state: {
+              header: { stamp: { sec: 0, nanosec: 0}, frame_id: ""},
+              joint_names: [], transforms: [], twist: [], wrench: []},
+            attached_collision_objects: [],
+            is_diff: true}
+        });
+        paramDisplayRobotStateTopic.publish(msg_robot_state);
+      }
+      if (steps[i][0] == 'MarkerArray') {
+        if (displeyed_env_state) {
+          continue;
+        }
+        displeyed_env_state = true;
+        // steps[i] = ['MarkerArray', sleep_time, list of [id, type, px, py, pz, qx, qy, qz, qw, sx, sy, sz, cx, cy, cz]]
+        //                                      0    1    2   3   4   5   6   7   8   9  10  11  12  13  14
+        let markers = []
+        for (let j = 0; j < steps[i][2].length; j++) {
+          let md = steps[i][2][j]
+          marker = { header: { stamp: { sec: 0, nanosec: 0}, frame_id: "world"},
+  ns: "env",
+  id: md[0],
+  type: md[1],
+  action: 0,
+  pose: {
+    position: {x: md[2], y: md[3], z: md[4]},
+    orientation: {x: md[5], y: md[6], z: md[7], w: md[8]}},
+  scale: {x: md[9], y: md[10], z: md[11]},
+  color: {r: md[12], g: md[13], b: md[14], a: 1.0},
+  lifetime: {sec: 0, nanosec: 0},
+  frame_locked: false,
+  points:     [],
+  colors:     [],
+  texture_resource: "",
+  texture: {header: {stamp: {sec: 0, nanosec: 0}, frame_id: ""}, format: "", data: []},
+  uv_coordinates: [],
+  text: "",
+  mesh_resource: "",  mesh_file: {filename: "", data: []},
+  mesh_use_embedded_materials: false};
+          markers.push(marker);
+        }
+        const msg_marker_array = new ROSLIB.Message({
+          markers: markers
+        });
+        visualizationStateTopic.publish(msg_marker_array);
+
+      }
+
+      await sleep(steps[i][1]);
+    }
+
+    log("[PUB] Visualized state");
+  }
+
+
+  async function publishVisualizePlan() {
+    if (!paramDisplayRobotStateTopic) return log("[ERR] Not connected: parameters.");
+    if (!visualizationStateTopic) return log("[ERR] Not connected: parameters.");
+
+    for (let i = 0; i < steps.length; i++) {
+      if (steps[i][0] == 'DisplayRobotState') {
+        // steps[i] = ['DisplayRobotState', sleep_time, position ]
+        const msg_robot_state = new ROSLIB.Message({
+          state: {
+            joint_state: {
+              header: { stamp: {sec: 0, nanosec: 0}, frame_id: ""},
+              name: "<<<<joint_names>>>>",
+              position: steps[i][2],
+              velocity: [],
+              effort: []},
+            multi_dof_joint_state: {
+              header: { stamp: { sec: 0, nanosec: 0}, frame_id: ""},
+              joint_names: [], transforms: [], twist: [], wrench: []},
+            attached_collision_objects: [],
+            is_diff: true}
+        });
+        paramDisplayRobotStateTopic.publish(msg_robot_state);
+      }
+      if (steps[i][0] == 'MarkerArray') {
+        // steps[i] = ['MarkerArray', sleep_time, list of [id, type, px, py, pz, qx, qy, qz, qw, sx, sy, sz, cx, cy, cz]]
+        //                                      0    1    2   3   4   5   6   7   8   9  10  11  12  13  14
+        let markers = []
+        for (let j = 0; j < steps[i][2].length; j++) {
+          let md = steps[i][2][j]
+          marker = { header: { stamp: { sec: 0, nanosec: 0}, frame_id: "world"},
+  ns: "env",
+  id: md[0],
+  type: md[1],
+  action: 0,
+  pose: {
+    position: {x: md[2], y: md[3], z: md[4]},
+    orientation: {x: md[5], y: md[6], z: md[7], w: md[8]}},
+  scale: {x: md[9], y: md[10], z: md[11]},
+  color: {r: md[12], g: md[13], b: md[14], a: 1.0},
+  lifetime: {sec: 0, nanosec: 0},
+  frame_locked: false,
+  points:     [],
+  colors:     [],
+  texture_resource: "",
+  texture: {header: {stamp: {sec: 0, nanosec: 0}, frame_id: ""}, format: "", data: []},
+  uv_coordinates: [],
+  text: "",
+  mesh_resource: "",  mesh_file: {filename: "", data: []},
+  mesh_use_embedded_materials: false};
+          markers.push(marker);
+        }
+        const msg_marker_array = new ROSLIB.Message({
+          markers: markers
+        });
+        visualizationStateTopic.publish(msg_marker_array);
+
+      }
+
+      await sleep(steps[i][1]);
+    }
+    log("[PUB] Visualized: trajectory");
+  }
+
+  connect();
+
+  document.getElementById("btnVisualizeState").onclick = publishVisualizeState;
+  document.getElementById("btnVisualizePlan").onclick = publishVisualizePlan;
+
+  log("[INFO] Ready. Click \"Visualize ...\".");
+</script>
+</body>
+</html>

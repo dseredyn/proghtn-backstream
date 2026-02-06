@@ -1,0 +1,12 @@
+{
+    "planning_domain": "wut_velma/wut_velma.hsddl",
+    "world_model": "tamp_htn_stream_velma",
+    "world_model_data": {
+        "models": "wut_velma/models/models.json",
+        "grasps_dir": "wut_velma/grasps",
+        "world_state_rules": "wut_velma/rules/world_state_rules.json",
+        "node_visualization_template": "wut_velma/visualization/node_visualization_template.html",
+        "plan_visualization_template": "wut_velma/visualization/plan_visualization_template.html",
+        "velma_wrist_constraint_image": "wut_velma/models/velma_wrist_space.png"
+    }
+}

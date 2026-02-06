@@ -1,0 +1,271 @@
+{
+    "available_parameter_values": {
+        "visualization_verbosity_level": ["none", "low", "medium", "high"],
+        "generator_sampling_type": ["random_pdf", "best", "random"]
+    },
+    "comments": {
+        "checked_tests": ["a", "c", "e", "f", "h", "i", "j", "l", "m", "w", "u"]
+    },
+    "_planner_parameters": {
+        "test_run_id": "test_01_full",
+        "max_iterations": 3000,
+        "visualization_verbosity_level": "none",
+        "repeats": 1,
+        "use_backtracking": true,
+        "generator_sampling_type": "random_pdf"
+    },
+    "b_planner_parameters": {
+        "test_run_id": "test_01_no_backtrack",
+        "max_iterations": 3000,
+        "visualization_verbosity_level": "none",
+        "repeats": 8,
+        "use_backtracking": false,
+        "generator_sampling_type": "random_pdf"
+    },
+    "c_planner_parameters": {
+        "test_run_id": "test_01_gen_best",
+        "max_iterations": 3000,
+        "visualization_verbosity_level": "none",
+        "repeats": 8,
+        "use_backtracking": true,
+        "generator_sampling_type": "best"
+    },
+    "d_planner_parameters": {
+        "test_run_id": "test_01_random",
+        "max_iterations": 3000,
+        "visualization_verbosity_level": "none",
+        "repeats": 6,
+        "use_backtracking": true,
+        "generator_sampling_type": "random"
+    },
+    "max_RAM_usage_GB": 25,
+    "test_suite_repeats": 4,
+    "_test_suite": [
+        {
+            "test_run_id": "test_01_full",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": true,
+            "generator_sampling_type": "random_pdf"
+        },
+        {
+            "test_run_id": "test_01_gen_best",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": true,
+            "generator_sampling_type": "best"
+        },
+        {
+            "test_run_id": "test_01_no_backtrack_best",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": false,
+            "generator_sampling_type": "best"
+        },
+        {
+            "test_run_id": "test_01_no_backtrack",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": false,
+            "generator_sampling_type": "random_pdf"
+        },
+        {
+            "test_run_id": "test_01_random",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": true,
+            "generator_sampling_type": "random"
+        }
+    ],
+    "test_suite": [
+        {
+            "test_run_id": "test_01_gen_best",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": true,
+            "generator_sampling_type": "best"
+        }
+    ],
+    "___test_suite": [
+        {
+            "test_run_id": "test_01_no_backtrack_best",
+            "max_iterations": 2500,
+            "max_planning_time": 480,
+            "visualization_verbosity_level": "none",
+            "use_backtracking": false,
+            "generator_sampling_type": "best"
+        }
+    ],
+    "active_tests":      ["c", "e", "a", "f", "j", "i", "h", "g", "l", "k", "m", "y", "p", "z", "o", "x", "u", "y2", "y3"],
+    "_active_tests":     ["c", "e", "a", "f", "j", "i", "h", "g", "l", "k", "m", "y", "p", "z", "w", "o", "x", "u", "y2", "y3"],
+    "planning_problems": [
+        {
+            "id": "a",
+            "description": "The robot holds a bowl in the left gripper, and it is required to put down the bowl anywhere.",
+            "initial_state": "wut_velma/world_states/kb_world_model_013.json",
+            "initial_task_network": "wut_velma/task_networks/place_bowl.json"
+        },
+        {
+            "id": "b",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/simple_jar_grasped.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "c",
+            "description": "The robot has both grippers free, and it is required to grasp a jar with left gripper. The jar is in a cabinet.",
+            "initial_state": "wut_velma/world_states/kb_world_model_011.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_jar_left.json"
+        },
+        {
+            "id": "d",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/simple_jar_bowl_grasped.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "e",
+            "description": "The robot holds a bowl in the left gripper, and it is required to grasp a jar with right gripper. The jar is in a cabinet.",
+            "initial_state": "wut_velma/world_states/kb_world_model_013.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_jar_right.json"
+        },
+        {
+            "id": "f",
+            "description": "The robot holds a bowl in the left gripper, and it is required to grasp a jar with left gripper. The jar is in a cabinet.",
+            "initial_state": "wut_velma/world_states/kb_world_model_013.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_jar_left.json"
+        },
+        {
+            "id": "g",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/kb_world_model_013.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "h",
+            "description": "The robot has to pick a bowl with right gripper. There is a box in fron of the bowl, and it has to be reomved.",
+            "initial_state": "wut_velma/world_states/exp_2022_11_21_env2_bowl_occl_box2_c.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_bowl_right.json"
+        },
+        {
+            "id": "i",
+            "description": "A good test for space reservation",
+            "initial_state": "wut_velma/world_states/exp_2022_11_21_env2_bowl_occl_box2_c.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_jar_left.json"
+        },
+        {
+            "id": "j",
+            "description": "Robot has to grasp a jar in a cabinet, in tight space. A box is in front of the jar and it must be removed.",
+            "initial_state": "wut_velma/world_states/exp_2022_11_21_env2_bowl_occl_box2_c.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_jar_right.json"
+        },
+        {
+            "id": "k",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/kb_world_model_011.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "l",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/exp_2022_11_21_env2_bowl_occl_box2_c.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_bowl_left.json"
+        },
+        {
+            "id": "m",
+            "description": "A jar should be grasped. It is behind two objects in a cabinet.",
+            "initial_state": "wut_velma/world_states/complex_01_jar_opened_localized_fixed.json",
+            "initial_task_network": "wut_velma/task_networks/takeover_jar_left.json"
+        },
+        {
+            "id": "n",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/exp_2022_11_21_env2_bowl_occl_box2_b.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "o",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/exp_2022_11_21_env2_bowl_occl_box2_c.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "p",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/world_05.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "q",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/world_06.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "r",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/world_08.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "s",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/world_09b.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "t",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/world_10.json",
+            "initial_task_network": "wut_velma/task_networks/pour2.json"
+        },
+        {
+            "id": "u",
+            "description": "TODO",
+            "initial_state": "wut_velma/world_states/world_12.json",
+            "initial_task_network": "wut_velma/task_networks/clear_table2.json"
+        },
+        {
+            "id": "w",
+            "description": "The cabinet should be cleaned up. There are three objects in the cabinet.",
+            "initial_state": "wut_velma/world_states/complex_01_jar_opened_localized_fixed.json",
+            "initial_task_network": "wut_velma/task_networks/clear_cabinet.json"
+        },
+        {
+            "id": "x",
+            "description": "Four objects are on a table and they have to be placed in or on a cabinet.",
+            "initial_state": "wut_velma/world_states/world_13.json",
+            "initial_task_network": "wut_velma/task_networks/clear_table3.json"
+        },
+        {
+            "id": "y",
+            "description": "Two objects are on a table and they have to be placed in a cabinet.",
+            "initial_state": "wut_velma/world_states/world_15.json",
+            "initial_task_network": "wut_velma/task_networks/clear_table4.json"
+        },
+        {
+            "id": "y2",
+            "description": "Three objects are on a table and they have to be placed in a cabinet.",
+            "initial_state": "wut_velma/world_states/world_14.json",
+            "initial_task_network": "wut_velma/task_networks/clear_table4.json"
+        },
+        {
+            "id": "y3",
+            "description": "Four objects are on a table and they have to be placed in a cabinet.",
+            "initial_state": "wut_velma/world_states/world_16.json",
+            "initial_task_network": "wut_velma/task_networks/clear_table4.json"
+        },
+        {
+            "id": "z",
+            "description": "Four objects are on a table and they have to be placed in a cabinet.",
+            "initial_state": "wut_velma/world_states/world_14.json",
+            "initial_task_network": "wut_velma/task_networks/clear_table3.json"
+        }
+    ]
+}

@@ -1,0 +1,2790 @@
+{
+  "ObjectModels": [
+    {
+      "ParentClasses": [
+        "jar"
+      ],
+      "Attributes": [
+        {
+          "Hole": {
+            "Pose": {
+              "p": {
+                "x": "0",
+                "y": "0",
+                "z": "0.1"
+              },
+              "M": {
+                "x": "0",
+                "y": "0",
+                "z": "0",
+                "w": "1"
+              }
+            },
+            "Circle": {
+              "r": "0.04"
+            }
+          },
+          "Name": "hole"
+        },
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "-0.1"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.04"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Cylinder": {
+                    "radius": "0.04",
+                    "length": "0.2"
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "jar"
+    },
+    {
+      "ParentClasses": [
+        "jar"
+      ],
+      "Attributes": [
+        {
+          "Hole": {
+            "Pose": {
+              "p": {
+                "x": "0",
+                "y": "0",
+                "z": "0.1"
+              },
+              "M": {
+                "x": "0",
+                "y": "0",
+                "z": "0",
+                "w": "1"
+              }
+            },
+            "Circle": {
+              "r": "0.04"
+            }
+          },
+          "Name": "hole"
+        },
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "-0.1"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.04"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Cylinder": {
+                    "radius": "0.04",
+                    "length": "0.2"
+                  }
+                },
+                "Name": "surface"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "-0.015"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Cylinder": {
+                    "radius": "0.0775",
+                    "length": "0.14"
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "jar_markers"
+    },
+    {
+      "ParentClasses": [
+        "cabinet_no_door",
+        "cabinet"
+      ],
+      "Attributes": [
+        {
+          "Geometry": {
+            "Box": {
+              "Size": {
+                "x": "0.3",
+                "y": "0.56",
+                "z": "0.58"
+              }
+            }
+          },
+          "Name": "interior_shape"
+        },
+        {
+          "Pose": {
+            "p": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0",
+              "w": "1"
+            }
+          },
+          "Name": "interior_center"
+        },
+        {
+          "FlatSurfaceContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.002",
+                  "y": "0",
+                  "z": "-0.245"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.26",
+                "y": "0.57"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.002",
+                  "y": "0",
+                  "z": "0.055"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.26",
+                "y": "0.57"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.002",
+                  "y": "0",
+                  "z": "0.35"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.26",
+                "y": "0.57"
+              }
+            }
+          ],
+          "Name": "flat_surfaces"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": false
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "Pose": [
+              {
+                "Pose": {
+                  "p": {
+                    "x": "0",
+                    "y": "0",
+                    "z": "0"
+                  },
+                  "M": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  }
+                },
+                "Frame": ""
+              }
+            ],
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.14",
+                      "y": "0",
+                      "z": "0.035"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.585",
+                      "z": "0.6"
+                    }
+                  }
+                },
+                "Name": "back"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "-0.2925",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.015",
+                      "z": "0.7"
+                    }
+                  }
+                },
+                "Name": "left_side"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0.2925",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.015",
+                      "z": "0.7"
+                    }
+                  }
+                },
+                "Name": "right_side"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.002",
+                      "y": "0",
+                      "z": "-0.2525"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.26",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "bottom"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.3425"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "top"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.002",
+                      "y": "0",
+                      "z": "0.0475"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.26",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "middle_shelf"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.115",
+                      "y": "0",
+                      "z": "-0.3025"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.57",
+                      "z": "0.09"
+                    }
+                  }
+                },
+                "Name": "low_front"
+              }
+            ],
+            "Name": "cabinet"
+          }
+        ],
+        "Pose": [
+          {
+            "Pose": {
+              "p": {
+                "x": "0.738917",
+                "y": "1.0623",
+                "z": "0"
+              },
+              "M": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            "Frame": ""
+          }
+        ]
+      },
+      "ModelId": "cabinet_no_door"
+    },
+    {
+      "ParentClasses": [
+        "cabinet_no_door",
+        "cabinet"
+      ],
+      "Attributes": [
+        {
+          "Geometry": {
+            "Box": {
+              "Size": {
+                "x": "0.3",
+                "y": "0.56",
+                "z": "0.58"
+              }
+            }
+          },
+          "Name": "interior_shape"
+        },
+        {
+          "Pose": {
+            "p": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0",
+              "w": "1"
+            }
+          },
+          "Name": "interior_center"
+        },
+        {
+          "FlatSurfaceContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.002",
+                  "y": "0",
+                  "z": "-0.215"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.26",
+                "y": "0.57"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.002",
+                  "y": "0",
+                  "z": "0.055"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.26",
+                "y": "0.57"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.002",
+                  "y": "0",
+                  "z": "0.35"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.26",
+                "y": "0.57"
+              }
+            }
+          ],
+          "Name": "flat_surfaces"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": false
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "Pose": [
+              {
+                "Pose": {
+                  "p": {
+                    "x": "0",
+                    "y": "0",
+                    "z": "0"
+                  },
+                  "M": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  }
+                },
+                "Frame": ""
+              }
+            ],
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.14",
+                      "y": "0",
+                      "z": "0.035"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.585",
+                      "z": "0.6"
+                    }
+                  }
+                },
+                "Name": "back"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "-0.2925",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.015",
+                      "z": "0.7"
+                    }
+                  }
+                },
+                "Name": "left_side"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0.2925",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.015",
+                      "z": "0.7"
+                    }
+                  }
+                },
+                "Name": "right_side"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.002",
+                      "y": "0",
+                      "z": "-0.2225"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.26",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "bottom"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.3425"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "top"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.002",
+                      "y": "0",
+                      "z": "0.0475"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.26",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "middle_shelf"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.115",
+                      "y": "0",
+                      "z": "-0.3025"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.57",
+                      "z": "0.09"
+                    }
+                  }
+                },
+                "Name": "low_front"
+              }
+            ],
+            "Name": "cabinet"
+          }
+        ],
+        "Pose": [
+          {
+            "Pose": {
+              "p": {
+                "x": "0.738917",
+                "y": "1.0623",
+                "z": "0"
+              },
+              "M": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            "Frame": ""
+          }
+        ]
+      },
+      "ModelId": "cabinet_no_door_foam"
+    },
+    {
+      "ParentClasses": [
+        "bowl"
+      ],
+      "Attributes": [
+        {
+          "Hole": {
+            "Pose": {
+              "p": {
+                "x": "0",
+                "y": "0",
+                "z": "0.1"
+              },
+              "M": {
+                "x": "0",
+                "y": "0",
+                "z": "0",
+                "w": "1"
+              }
+            },
+            "Circle": {
+              "r": "0.1"
+            }
+          },
+          "Name": "hole"
+        },
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.1"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.05"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Cylinder": {
+                    "radius": "0.1",
+                    "length": "0.1"
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "bowl_high"
+    },
+    {
+      "ParentClasses": [
+        "bowl"
+      ],
+      "Attributes": [
+        {
+          "Hole": {
+            "Pose": {
+              "p": {
+                "x": "0",
+                "y": "0",
+                "z": "0.1"
+              },
+              "M": {
+                "x": "0",
+                "y": "0",
+                "z": "0",
+                "w": "1"
+              }
+            },
+            "Circle": {
+              "r": "0.1"
+            }
+          },
+          "Name": "hole"
+        },
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.1"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.05"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Cylinder": {
+                    "radius": "0.1",
+                    "length": "0.1"
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "bowl_high_markers"
+    },
+    {
+      "ParentClasses": [
+        "table"
+      ],
+      "Attributes": [
+        {
+          "Rectangle": {
+            "x": "0.913",
+            "y": "0.913"
+          },
+          "Name": "table_top_shape"
+        },
+        {
+          "Pose": {
+            "p": {
+              "x": "0",
+              "y": "0",
+              "z": "0.775"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0",
+              "w": "1"
+            }
+          },
+          "Name": "table_top_center"
+        },
+        {
+          "FlatSurfaceContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.775"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.913",
+                "y": "0.913"
+              }
+            }
+          ],
+          "Name": "flat_surfaces"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": false
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.755"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.913",
+                      "y": "0.913",
+                      "z": "0.04"
+                    }
+                  }
+                },
+                "Name": "surface"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.37"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.042",
+                      "y": "0.042",
+                      "z": "0.74"
+                    }
+                  }
+                },
+                "Name": "column"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.02"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.56",
+                      "y": "0.56",
+                      "z": "0.04"
+                    }
+                  }
+                },
+                "Name": "base"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "table"
+    },
+    {
+      "ParentClasses": [
+        "table"
+      ],
+      "Attributes": [
+        {
+          "Rectangle": {
+            "x": "0.9",
+            "y": "0.6"
+          },
+          "Name": "table_top_shape"
+        },
+        {
+          "Pose": {
+            "p": {
+              "x": "0",
+              "y": "0",
+              "z": "0.76"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0",
+              "w": "1"
+            }
+          },
+          "Name": "table_top_center"
+        },
+        {
+          "FlatSurfaceContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.76"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "0.9",
+                "y": "0.6"
+              }
+            }
+          ],
+          "Name": "flat_surfaces"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": false
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.65"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.9",
+                      "y": "0.6",
+                      "z": "0.22"
+                    }
+                  }
+                },
+                "Name": "surface"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.39",
+                      "y": "0",
+                      "z": "0.355"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.1",
+                      "y": "0.5",
+                      "z": "0.71"
+                    }
+                  }
+                },
+                "Name": "leg_left"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.39",
+                      "y": "0",
+                      "z": "0.355"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.1",
+                      "y": "0.5",
+                      "z": "0.71"
+                    }
+                  }
+                },
+                "Name": "leg_right"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "table_a"
+    },
+    {
+      "ParentClasses": [
+        "table"
+      ],
+      "Attributes": [
+        {
+          "Rectangle": {
+            "x": "1.04",
+            "y": "0.6"
+          },
+          "Name": "table_top_shape"
+        },
+        {
+          "Pose": {
+            "p": {
+              "x": "0",
+              "y": "0",
+              "z": "0.75"
+            },
+            "M": {
+              "x": "0",
+              "y": "0",
+              "z": "0",
+              "w": "1"
+            }
+          },
+          "Name": "table_top_center"
+        },
+        {
+          "FlatSurfaceContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.75"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Rectangle": {
+                "x": "1.04",
+                "y": "0.6"
+              }
+            }
+          ],
+          "Name": "flat_surfaces"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": false
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.73"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "1.04",
+                      "y": "0.6",
+                      "z": "0.04"
+                    }
+                  }
+                },
+                "Name": "surface"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.39",
+                      "y": "0",
+                      "z": "0.355"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.1",
+                      "y": "0.5",
+                      "z": "0.71"
+                    }
+                  }
+                },
+                "Name": "leg_left"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.39",
+                      "y": "0",
+                      "z": "0.355"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.1",
+                      "y": "0.5",
+                      "z": "0.71"
+                    }
+                  }
+                },
+                "Name": "leg_right"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "table_b"
+    },
+    {
+      "ParentClasses": [
+        "jar_lid"
+      ],
+      "Attributes": [
+        {
+          "Circle": {
+            "r": "0.04"
+          },
+          "Name": "cap_shape"
+        },
+        {
+          "Point": {
+            "x": "0",
+            "y": "0",
+            "z": "0"
+          },
+          "Name": "cap_center"
+        },
+        {
+          "Point": {
+            "x": "0",
+            "y": "0",
+            "z": "1"
+          },
+          "Name": "cap_normal"
+        },
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "-0.02"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.04"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.02"
+                },
+                "M": {
+                  "x": "1",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0"
+                }
+              },
+              "Circle": {
+                "r": "0.04"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Cylinder": {
+                    "radius": "0.04",
+                    "length": "0.04"
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "jar_lid"
+    },
+    {
+      "ParentClasses": [
+        "cabinet"
+      ],
+      "KinematicStructure": {
+        "JointConnections": [
+          {
+            "Name": "right_door_angle",
+            "JointName": "right_joint",
+            "Mult": "1.0",
+            "Offset": "0"
+          },
+          {
+            "Name": "left_door_angle",
+            "JointName": "left_joint",
+            "Mult": "-1.0",
+            "Offset": "0"
+          }
+        ],
+        "Links": [
+          {
+            "Pose": [
+              {
+                "Pose": {
+                  "p": {
+                    "x": "0",
+                    "y": "0",
+                    "z": "0"
+                  },
+                  "M": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  }
+                },
+                "Frame": ""
+              }
+            ],
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.14",
+                      "y": "0",
+                      "z": "0.035"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.585",
+                      "z": "0.6"
+                    }
+                  }
+                },
+                "Name": "back"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "-0.2925",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.015",
+                      "z": "0.7"
+                    }
+                  }
+                },
+                "Name": "left_side"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0.2925",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.015",
+                      "z": "0.7"
+                    }
+                  }
+                },
+                "Name": "right_side"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.002",
+                      "y": "0",
+                      "z": "-0.2525"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.26",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "bottom"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0.3425"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "top"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "-0.002",
+                      "y": "0",
+                      "z": "0.0475"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.26",
+                      "y": "0.57",
+                      "z": "0.015"
+                    }
+                  }
+                },
+                "Name": "middle_shelf"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.115",
+                      "y": "0",
+                      "z": "-0.3025"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.57",
+                      "z": "0.09"
+                    }
+                  }
+                },
+                "Name": "low_front"
+              }
+            ],
+            "Name": "cabinet"
+          },
+          {
+            "Pose": [
+              {
+                "Pose": {
+                  "p": {
+                    "x": "0.135",
+                    "y": "0.2835",
+                    "z": "0.0375"
+                  },
+                  "M": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  }
+                },
+                "Frame": ""
+              }
+            ],
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "-0.141",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.282",
+                      "z": "0.595"
+                    }
+                  }
+                },
+                "Name": "right_face"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.04304",
+                      "y": "-0.2555",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.005",
+                      "y": "0.005",
+                      "z": "0.136"
+                    }
+                  }
+                },
+                "Name": "right_handle"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.02475",
+                      "y": "-0.2555",
+                      "z": "0.0656"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.04",
+                      "y": "0.005",
+                      "z": "0.005"
+                    }
+                  }
+                },
+                "Name": "right_handle_up"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.02475",
+                      "y": "-0.2555",
+                      "z": "-0.06542"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.04",
+                      "y": "0.005",
+                      "z": "0.005"
+                    }
+                  }
+                },
+                "Name": "right_handle_bo"
+              }
+            ],
+            "Name": "right_door"
+          },
+          {
+            "Pose": [
+              {
+                "Pose": {
+                  "p": {
+                    "x": "0.135",
+                    "y": "-0.2835",
+                    "z": "0.0375"
+                  },
+                  "M": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                  }
+                },
+                "Frame": ""
+              }
+            ],
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0.141",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.015",
+                      "y": "0.282",
+                      "z": "0.595"
+                    }
+                  }
+                },
+                "Name": "left_face"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.04304",
+                      "y": "0.2555",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.005",
+                      "y": "0.005",
+                      "z": "0.136"
+                    }
+                  }
+                },
+                "Name": "left_handle"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.02475",
+                      "y": "0.2555",
+                      "z": "0.0656"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.04",
+                      "y": "0.005",
+                      "z": "0.005"
+                    }
+                  }
+                },
+                "Name": "left_handle_up"
+              },
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0.02475",
+                      "y": "0.2555",
+                      "z": "-0.06542"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.04",
+                      "y": "0.005",
+                      "z": "0.005"
+                    }
+                  }
+                },
+                "Name": "left_handle_bo"
+              }
+            ],
+            "Name": "left_door"
+          }
+        ],
+        "Joints": [
+          {
+            "Parent": "cabinet",
+            "Child": "right_door",
+            "Axis": {
+              "JointAxis": {
+                "x": "0",
+                "y": "0",
+                "z": "1"
+              },
+              "Limit": {
+                "Lower": "-0.001",
+                "Upper": "2.40"
+              },
+              "UseParentModelFrame": "1"
+            },
+            "Pose": {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.0,
+                  "w": 1.0
+                }
+              },
+              "Frame": ""
+            },
+            "Name": "right_joint",
+            "Type": "revolute"
+          },
+          {
+            "Parent": "cabinet",
+            "Child": "left_door",
+            "Axis": {
+              "JointAxis": {
+                "x": "0",
+                "y": "0",
+                "z": "1"
+              },
+              "Limit": {
+                "Lower": "-2.40",
+                "Upper": "0.001"
+              },
+              "UseParentModelFrame": "1"
+            },
+            "Pose": {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.0,
+                  "w": 1.0
+                }
+              },
+              "Frame": ""
+            },
+            "Name": "left_joint",
+            "Type": "revolute"
+          }
+        ],
+        "Pose": [
+          {
+            "Pose": {
+              "p": {
+                "x": "0.738917",
+                "y": "1.0623",
+                "z": "0"
+              },
+              "M": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            "Frame": ""
+          }
+        ]
+      },
+      "ModelId": "cabinet_door",
+      "Attributes": [
+        {
+          "Name": "moveability",
+          "IsMoveable": false
+        }
+      ]
+    },
+    {
+      "ParentClasses": [
+        "chessboard"
+      ],
+      "Attributes": [
+        {
+          "Rectangle": {
+            "x": "0.3",
+            "y": "0.2"
+          },
+          "Name": "shape"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.3",
+                      "y": "0.2",
+                      "z": "0.005"
+                    }
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "chessboard"
+    },
+    {
+      "ParentClasses": [
+        "box"
+      ],
+      "Attributes": [
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "-0.055"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.055"
+                },
+                "M": {
+                  "x": "1",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0.055",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "-0.7071068",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.055",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0.7071068",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0.055",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0.7071068",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "-0.055",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "-0.7071068",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  }
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.11",
+                      "y": "0.11",
+                      "z": "0.11"
+                    }
+                  }
+                },
+                "Name": "box"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "box1"
+    },
+    {
+      "ParentClasses": [
+        "box"
+      ],
+      "Attributes": [
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "-0.105"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.105"
+                },
+                "M": {
+                  "x": "1",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0.055",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "-0.7071068",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.055",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0.7071068",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0.055",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0.7071068",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "-0.055",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "-0.7071068",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.11",
+                      "y": "0.11",
+                      "z": "0.21"
+                    }
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "box2"
+    },
+    {
+      "ParentClasses": [
+        "box"
+      ],
+      "Attributes": [
+        {
+          "FlatBaseContainer": [
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "-0.105"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0",
+                  "w": "1"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0.105"
+                },
+                "M": {
+                  "x": "1",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0.055",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "-0.7071068",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "-0.055",
+                  "y": "0",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0",
+                  "y": "0.7071068",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "0.105",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "0.7071068",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            },
+            {
+              "Pose": {
+                "p": {
+                  "x": "0",
+                  "y": "-0.105",
+                  "z": "0"
+                },
+                "M": {
+                  "x": "-0.7071068",
+                  "y": "0",
+                  "z": "0",
+                  "w": "0.7071068"
+                }
+              },
+              "Circle": {
+                "r": "0.15"
+              }
+            }
+          ],
+          "Name": "flat_bases"
+        },
+        {
+          "Name": "moveability",
+          "IsMoveable": true
+        }
+      ],
+      "KinematicStructure": {
+        "Links": [
+          {
+            "collision": [
+              {
+                "Pose": {
+                  "Pose": {
+                    "p": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "M": {
+                      "x": 0.0,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 1.0
+                    }
+                  },
+                  "Frame": ""
+                },
+                "Geometry": {
+                  "Box": {
+                    "Size": {
+                      "x": "0.11",
+                      "y": "0.21",
+                      "z": "0.21"
+                    }
+                  }
+                },
+                "Name": "surface"
+              }
+            ],
+            "Name": "link"
+          }
+        ]
+      },
+      "ModelId": "box3"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "Tasks": [
+    {
+      "Args": [
+        "?obj"
+      ],
+      "Class": "place",
+      "Id": "place",
+      "type": "task_ref"
+    }
+  ],
+  "type": "TaskNetwork",
+  "ParameterGroundings": {
+    "?obj": {
+      "type": "data",
+      "Value": "bowl_1",
+      "ValueType": "ObjectId"
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "rules": [
+    {
+      "parameters": {
+        "?obj": "ObjectId"
+      },
+      "calculations": [
+        "?obj = PhysicalObjectState.ObjectId"
+      ]
+    },
+    {
+      "parameters": {
+        "?obj":"ObjectId",
+        "?model":"ObjectModelId"
+      },
+      "predicates": [
+        "IsInstance ?obj ?model"
+      ],
+      "calculations": [
+        "?obj   = PhysicalObjectState.ObjectId",
+        "?model = PhysicalObjectState.ObjectModelId"
+      ]
+    },
+    {
+      "parameters": {
+        "?obj":"ObjectId",
+        "?pose":"Pose"
+      },
+      "predicates": [
+        "AtPose ?obj ?pose",
+        "PoseExact ?pose"
+      ],
+      "calculations": [
+        "?obj  = PhysicalObjectState.ObjectId",
+        "?pose = PhysicalObjectState.PoseDescription.Pose"
+      ]
+    },
+    {
+      "parameters": {
+        "?obj":"ObjectId",
+        "?pose":"PlaceDesc"
+      },
+      "predicates": [
+        "AtPose ?obj ?pose"
+      ],
+      "calculations": [
+        "?obj  = PhysicalObjectState.ObjectId",
+        "?pose = PhysicalObjectState.PoseDescription.PlaceDesc"
+      ]
+    },
+    {
+      "parameters": {
+        "?obj":"ObjectId",
+        "?side":"Side",
+        "?gr":"GraspId"
+      },
+      "predicates": [
+        "GraspedSdGr ?obj ?side ?gr"
+      ],
+      "calculations": [
+        "?obj    = GripperState.ObjectId",
+        "?gr     = GripperState.GraspDef.GraspId",
+        "grasped == GripperState.State",
+        "?side   = GripperState.Side"
+      ]
+    },
+    {
+      "parameters": {
+        "?q":"ConfA",
+        "?sd":"Side"
+      },
+      "predicates":[
+        "AtConfA ?sd ?q"
+      ],
+      "calculations": [
+        "?q = BodyPose.RightArm",
+        "?sd = BodyPose.RightArm.Side"
+      ]
+    },
+    {
+      "parameters": {
+        "?q":"ConfA",
+        "?sd":"Side"
+      },
+      "predicates":[
+        "AtConfA ?sd ?q"
+      ],
+      "calculations": [
+        "?q = BodyPose.LeftArm",
+        "?sd = BodyPose.LeftArm.Side"
+      ]
+    },
+    {
+      "parameters": {
+        "?q":"ConfG",
+        "?sd":"Side"
+      },
+      "predicates":[
+        "AtConfG ?sd ?q"
+      ],
+      "calculations": [
+        "?q = BodyPose.RightHand",
+        "?sd = BodyPose.RightHand.Side"
+      ]
+    },
+    {
+      "parameters": {
+        "?q":"ConfG",
+        "?sd":"Side"
+      },
+      "predicates":[
+        "AtConfG ?sd ?q"
+      ],
+      "calculations": [
+        "?q = BodyPose.LeftHand",
+        "?sd = BodyPose.LeftHand.Side"
+      ]
+    },
+    {
+      "parameters": {
+        "?q":"ConfT"
+      },
+      "predicates":[
+        "AtConfT ?q"
+      ],
+      "calculations": [
+        "?q = BodyPose.TorsoConfig"
+      ]
+    },
+    {
+      "parameters": {
+        "?q":"ConfH"
+      },
+      "predicates":[
+        "AtConfH ?q"
+      ],
+      "calculations": [
+        "?q = BodyPose.HeadConfig"
+      ]
+    }
+  ]
+}

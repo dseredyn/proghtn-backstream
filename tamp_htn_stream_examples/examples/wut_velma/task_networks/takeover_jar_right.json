@@ -1,0 +1,26 @@
+{
+  "Tasks": [
+    {
+      "Args": [
+        "?obj",
+        "?sd"
+      ],
+      "Class": "takeSd",
+      "Id": "take",
+      "type": "task_ref"
+    }
+  ],
+  "type": "TaskNetwork",
+  "ParameterGroundings": {
+    "?obj": {
+      "type": "data",
+      "Value": "jar_1",
+      "ValueType": "ObjectId"
+    },
+    "?sd": {
+      "type": "data",
+      "Value": "right",
+      "ValueType": "Side"
+    }
+  }
+}

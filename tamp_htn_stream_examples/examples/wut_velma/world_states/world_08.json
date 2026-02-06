@@ -1,0 +1,354 @@
+{
+  "ObjectInstances": [
+    {
+      "ObjectInstance": {
+        "ObjectId": "table_1",
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "table_2",
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "table_3",
+        "ObjectModelId": "table_a"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "jar_1",
+        "ObjectModelId": "jar"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "jar_1_lid",
+        "ObjectModelId": "jar_lid"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "cabinet_2",
+        "ObjectModelId": "cabinet_no_door"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "bowl_1",
+        "ObjectModelId": "bowl_high"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "box_1",
+        "ObjectModelId": "box1"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "box_2",
+        "ObjectModelId": "box2"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "substance_1"
+      }
+    },
+    {
+      "ObjectInstance": {
+        "ObjectId": "substance_2"
+      }
+    }
+  ],
+  "WorldState": [
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "cabinet_2",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.208149",
+              "y": "-0.969233",
+              "z": "1.125"
+            },
+            "M": {
+              "x": "0.0",
+              "y": "0.0",
+              "z": "0.763770876187",
+              "w": "0.64548745045"
+            }
+          }
+        },
+        "ObjectModelId": "cabinet_no_door"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "box_2",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.163300712175",
+              "y": "-0.948409681792",
+              "z": "1.27999975459"
+            },
+            "M": {
+              "x": "8.21575426228e-07",
+              "y": "-1.83572156411e-06",
+              "z": "0.18572938972",
+              "w": "0.982600933131"
+            }
+          }
+        },
+        "ObjectModelId": "box2"
+      }
+    },
+    {
+      "BodyPose": {
+        "RightArm": {
+          "ArmConfig": {
+            "q0": "-0.291179655176",
+            "q1": "-1.82035169417",
+            "q2": "1.24733525423",
+            "q3": "0.853708152419",
+            "q4": "0.0122864570062",
+            "q5": "-0.559515651117",
+            "q6": "0.00861897683064"
+          },
+          "Side": "right"
+        },
+        "LeftArm": {
+          "ArmConfig": {
+            "q0": "0.292886045047",
+            "q1": "1.80933671862",
+            "q2": "-1.25193248959",
+            "q3": "-0.861561350923",
+            "q4": "-0.0166191970142",
+            "q5": "0.547911288403",
+            "q6": "-0.00892294527273"
+          },
+          "Side": "left"
+        },
+        "RightHand": {
+          "HandConfig": {
+            "f0a": "0.0",
+            "f0b": "0.0",
+            "f1a": "0.0",
+            "f1b": "0.0",
+            "f2a": "0.0",
+            "f2b": "0.0",
+            "sp": "0.0"
+          },
+          "Side": "right"
+        },
+        "LeftHand": {
+          "HandConfig": {
+            "f0a": "0.0",
+            "f0b": "0.0",
+            "f1a": "0.0",
+            "f1b": "0.0",
+            "f2a": "0.0",
+            "f2b": "0.0",
+            "sp": "0.0"
+          },
+          "Side": "left"
+        },
+        "HeadConfig": {
+          "hp": "0.0",
+          "ht": "0.0"
+        },
+        "TorsoConfig": "-1.51699049435e-06"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "table_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.250408",
+              "y": "-1.12536",
+              "z": "0.0"
+            },
+            "M": {
+              "x": "0.0",
+              "y": "0.0",
+              "z": "-0.631526178842",
+              "w": "0.775354554664"
+            }
+          }
+        },
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "table_3",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.965939",
+              "y": "0.010405",
+              "z": "0.0"
+            },
+            "M": {
+              "x": "0.0",
+              "y": "0.0",
+              "z": "-0.707108079859",
+              "w": "0.707105482511"
+            }
+          }
+        },
+        "ObjectModelId": "table_a"
+      }
+    },
+    {
+      "GripperState": {
+        "State": "empty",
+        "Side": "right"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "jar_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.318326866926",
+              "y": "-0.991729763623",
+              "z": "1.2799995617"
+            },
+            "M": {
+              "x": "1.11525909023e-06",
+              "y": "7.74023256095e-06",
+              "z": "0.997150441931",
+              "w": "0.0754386909701"
+            }
+          }
+        },
+        "ObjectModelId": "jar"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "jar_1_lid",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "8.0",
+              "y": "0.0",
+              "z": "0.014999"
+            },
+            "M": {
+              "x": "-1.00000194996e-05",
+              "y": "6.4999699996e-06",
+              "z": "3.00006499978e-06",
+              "w": "0.999999999924"
+            }
+          }
+        },
+        "ObjectModelId": "jar_lid"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "substance_1",
+        "PoseDescription": {
+          "PlaceDesc": {
+            "PlacePreposition": "in",
+            "RelativeTo": {
+              "ObjectId": "jar_1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "substance_2",
+        "PoseDescription": {
+          "PlaceDesc": {
+            "PlacePreposition": "in",
+            "RelativeTo": {
+              "ObjectId": "bowl_1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "GripperState": {
+        "State": "empty",
+        "Side": "left"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "table_2",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.293246",
+              "y": "1.1929",
+              "z": "0.0"
+            },
+            "M": {
+              "x": "0.0",
+              "y": "0.0",
+              "z": "-0.707426205721",
+              "w": "0.706787212292"
+            }
+          }
+        },
+        "ObjectModelId": "table"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "box_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.333508126063",
+              "y": "-0.866724719747",
+              "z": "1.22999844644"
+            },
+            "M": {
+              "x": "6.67192296327e-06",
+              "y": "-5.37701850421e-06",
+              "z": "0.15796155058",
+              "w": "0.987445263529"
+            }
+          }
+        },
+        "ObjectModelId": "box1"
+      }
+    },
+    {
+      "PhysicalObjectState": {
+        "ObjectId": "bowl_1",
+        "PoseDescription": {
+          "Pose": {
+            "p": {
+              "x": "0.136687503912",
+              "y": "-0.920636836709",
+              "z": "1.4749999199"
+            },
+            "M": {
+              "x": "6.52899093166e-07",
+              "y": "4.02894257303e-07",
+              "z": "0.87349040592",
+              "w": "-0.486841360984"
+            }
+          }
+        },
+        "ObjectModelId": "bowl_high"
+      }
+    }
+  ]
+}

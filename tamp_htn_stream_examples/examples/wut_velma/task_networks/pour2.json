@@ -1,0 +1,26 @@
+{
+  "Tasks": [
+    {
+      "Args": [
+        "?src",
+        "?dst"
+      ],
+      "Class": "pour",
+      "Id": "pour",
+      "type": "task_ref"
+    }
+  ],
+  "type": "TaskNetwork",
+  "ParameterGroundings": {
+    "?src": {
+      "type": "data",
+      "Value": "jar_1",
+      "ValueType": "ObjectId"
+    },
+    "?dst": {
+      "type": "data",
+      "Value": "bowl_1",
+      "ValueType": "ObjectId"
+    }
+  }
+}

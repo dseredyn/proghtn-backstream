@@ -1,0 +1,123 @@
+# TODO: add author and license
+
+#planning_domain     ::= ows "(" ows "define" domain_name requirements types? constants? predicates? task_def* method* action* ")" ows ;
+planning_domain     ::= ows "(" ows "define" domain_name requirements types? constants? com_pred? ext_pred? derived_predicate* tmas* ")" ows ;
+
+tmas                ::= task_def | method | action | stream_def ;
+domain_name         ::= ows "(" ows "domain" ext_name ")" ows ;
+requirements        ::= ows "(" ows ":requirements" requirement* ")" ows ;
+requirement         ::= ows (":negative-preconditions" | ":hierarchy" | ":typing" | ":method-preconditions" | ":universal-preconditions" | ":streams" | ":existential-quantification") ows ;
+
+types               ::= ows "(" ows ":types" type_def* ")" ows ;
+type_def            ::= ows name+ ows parent_type? ows ;
+parent_type         ::= "-" ows name ;
+
+constants           ::= ows "(" ows ":constants" type_def* ")" ows ;
+
+com_pred            ::= ows "(" ows ":common_predicates" predicate* ")" ows ;
+ext_pred            ::= ows "(" ows ":extended_predicates" predicate* ")" ows ;
+predicate           ::= ows "(" name typed_var* ")" ows ;
+typed_var           ::= var_name+ "-" ws name ows ;
+
+task_def            ::= ows "(" ows ":task" ext_name parameters ")" ows ;
+
+parameters          ::= ows ":parameters" ows "(" typed_var* ows ")" ows ;
+
+method              ::= ows "(" ows ":method" ext_name parameters method_task precondition? task_network ordered_streams? ")" ows ;
+
+# TOHTN
+#task_network        ::= (subtasks | ordered_subtasks) ordering? constraints? ;
+task_network        ::= ordered_subtasks ;
+
+method_task         ::= ows ":task" ows "(" ext_name var_name* ")" ows ;
+
+task_ref            ::= ows "(" ext_name var_const* ")" ows ;
+
+var_const           ::= ows (var_name | name) ows ;
+var_name            ::= ows "?" name ows ;
+
+# TOHTN
+#subtasks            ::= ows (":subtasks" | ":tasks") (and_tasks | opt_named_task | empty_block) ows ;
+
+ordered_subtasks    ::= ows ":ordered-tasks" (and_tasks | opt_named_task | empty_block) ows ;
+
+and_tasks           ::= ows "(" ows "and" opt_named_task* ows ")" ows ;
+
+named_task          ::= ows "(" ows ext_name task_ref ")" ows ;
+
+opt_named_task      ::= task_ref | named_task ;
+
+empty_block         ::= ows "(" ows ")" ows ;
+
+# TOHTN
+#ordering            ::= ows ":ordering" (and_ordering | order | empty_block) ows ;
+#and_ordering        ::= ows "(" ows "and" order* ows ")" ows ;
+
+# TODO:
+#constraints         ::= ows ":constraints" ows "(" ows ")" ows ;
+
+#order               ::= ows "(" ows "<" ext_name ext_name ")" ows ;
+
+# streams
+ordered_streams     ::= ows ":ordered-streams" and_streams ows ;
+
+and_streams         ::= ows "(" ows "and" stream_ref+ ")" ows ;
+
+stream_ref          ::= ows "(" ext_name inputs_ref? outputs_ref? ")" ows ;
+
+inputs_ref          ::= ows ":inputs" ows "(" var_const+ ")" ows ;
+
+outputs_ref         ::= ows ":outputs" ows "(" var_const+ ")" ows ;
+
+action              ::= ows "(" ows ":action" ext_name parameters precondition? effect? ")" ows ;
+
+precondition        ::= ows ":precondition" ows formula ows ;
+
+effect              ::= ows ":effect" ows formula ows ;
+
+formula             ::= and_formula | literal | empty_block ;
+and_formula         ::= ows "(" ows "and" literal+ ows ")" ;
+literal             ::= (atom | neg_atom) ;
+atom                ::= ows "(" ows name var_const* ows ")" ows ;
+neg_atom            ::= ows "(" ows "not" ows atom ows ")" ows ;
+
+ws                  ::= /[ \t\n]+/ ;
+ows                 ::= /[ \t\n]*/ ;
+
+name                ::= ows any_name ows ;
+any_name            ::= /(?i:[a-zA-Z0-9_]+)/ ;
+
+ext_name            ::= ows any_ext_name ows ;
+any_ext_name        ::= /(?i:[a-zA-Z0-9_\-]+)/ ;
+
+
+####################################################################################################
+# streams ##########################################################################################
+####################################################################################################
+
+stream_def          ::= ows "(" ows ":stream" ext_name inputs_def? str_domain? outputs_def? str_certified? relay_def? ")" ows ;
+
+inputs_def          ::= ows  ":inputs" ows "(" typed_var* ")" ows ;
+
+str_domain          ::= ows ":domain" ows formula ows ;
+
+outputs_def         ::= ows ":outputs" ows "(" typed_var* ")" ows ;
+
+str_certified       ::= ows ":certified" ows formula ows ;
+
+relay_def           ::= ows ":relay" ows "(" relay_item* ")" ows ;
+
+relay_item          ::= ows var_name ows "->" ows var_name ows ;
+
+####################################################################################################
+# derived predicates ###############################################################################
+####################################################################################################
+
+derived_predicate   ::= ows "(" ows ":derived-predicate" ext_name parameters derivation ")" ows ;
+derivation          ::= ows ":derivation" ows (existential_quant_formula | formula) ows ;
+existential_quant_formula   ::= ows "(" ows "exists" ows "(" typed_var+ ")" ows formula ows ")" ows;
+
+#  (:derived-predicate GraspedSd
+#    :parameters (?obj - ObjectId ?sd - SideDesc)
+#    :derivation (exists (?gr - GraspSpec) (GraspedSdGr ?obj ?gr ?side))
+#  )
