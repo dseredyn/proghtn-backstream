@@ -39,7 +39,7 @@
         "generator_sampling_type": "random"
     },
     "max_RAM_usage_GB": 25,
-    "test_suite_repeats": 4,
+    "test_suite_repeats": 3,
     "_test_suite": [
         {
             "test_run_id": "test_01_full",
@@ -84,11 +84,11 @@
     ],
     "test_suite": [
         {
-            "test_run_id": "test_01_gen_best",
+            "test_run_id": "test_01_no_backtrack_best",
             "max_iterations": 2500,
             "max_planning_time": 480,
             "visualization_verbosity_level": "none",
-            "use_backtracking": true,
+            "use_backtracking": false,
             "generator_sampling_type": "best"
         }
     ],

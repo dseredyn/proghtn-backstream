@@ -411,6 +411,7 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
         all_problems_planning_time = sum([sum(sample['total_time']) for problem_id, sample in samples_map.items()])
         all_generations_count = sum([str_info['sum_total_count'] for str_name, str_info in streams_map.items()])
         all_backtracks_count = sum([str_info['backtracks'] for str_name, str_info in streams_map.items() if 'backtracks' in str_info])
+        all_blames_count = sum([str_info['sum_bad_param_gen'] for str_name, str_info in streams_map.items() if 'sum_bad_param_gen' in str_info])
 
         total_gen_time = 0.0
         all_successful_gen = 0
@@ -426,10 +427,10 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
             success_rate = 100.0 * stream_info['sum_success'] / stream_info['sum_total_count']
             all_successful_gen += stream_info['sum_success']
             
-            if all_backtracks_count == 0:
-                blame_factor = 0
-            else:
-                blame_factor = stream_info['sum_bad_param_gen'] / all_backtracks_count
+            # if all_backtracks_count == 0:
+            #     blame_factor = 0
+            # else:
+            blame_factor = 100.0 * stream_info['sum_bad_param_gen'] / all_blames_count
             all_bad_param_gen += stream_info['sum_bad_param_gen']
 
             # gen_summary.append( [stream_name, f'{percent_count:.1f}', f'{percent_time:.1f}',
@@ -444,10 +445,10 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
         all_gen_mean_time = all_gen_time_percent / all_generations_count
         total_success_rate = 100.0 * all_successful_gen / all_generations_count
 
-        if all_backtracks_count == 0:
-            all_blame_factor = 0
-        else:
-            all_blame_factor = all_bad_param_gen / all_backtracks_count
+        # if all_backtracks_count == 0:
+        #     all_blame_factor = 0
+        # else:
+        all_blame_factor = 100.0 * all_bad_param_gen / all_blames_count
         
         gen_summary.append( ['all', 100.0, all_gen_time_percent, all_gen_mean_time,
                              total_success_rate, all_blame_factor] )

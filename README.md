@@ -23,6 +23,17 @@ The planner was tested on the following setup:
 
 ## Installation
 
+Create workspace and venv environemnt for Python
+```bash
+source /opt/ros/jazzy/setup.bash
+mkdir -p ~/ws_tamp/src
+cd ~/ws_tamp/src
+
+TODO
+source venv/bin/activate
+
+```
+
 TODO: add venv configuration
 
 Download and compile ROS 2 overlay workspace:
@@ -38,10 +49,16 @@ python -m colcon build --symlink-install
 
 ## Run
 
+Run MoveIt:
 ```bash
+cd ~/ws_tamp
+source install/setup.bash
 ros2 launch velma_moveit_config planning_only.launch.py
 ```
 
+Run planner:
 ```bash
+cd ~/ws_tamp
+source install/setup.bash
 ros2 run tamp_htn_stream planner package://tamp_htn_stream_examples/examples/velma_domain.json  --offline-test package://tamp_htn_stream_examples/examples/velma_test.json
 ```
