@@ -15,7 +15,6 @@ install(DIRECTORY examples
 
 install(PROGRAMS
   scripts/moveit_planning_test.py
-  scripts/extract_old_tests.py
   scripts/test_basic_planning.py
   scripts/python_fcl_test.py
   scripts/pybullet_ray.py

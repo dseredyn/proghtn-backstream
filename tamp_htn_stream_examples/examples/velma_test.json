@@ -3,107 +3,53 @@
         "visualization_verbosity_level": ["none", "low", "medium", "high"],
         "generator_sampling_type": ["random_pdf", "best", "random"]
     },
-    "comments": {
-        "checked_tests": ["a", "c", "e", "f", "h", "i", "j", "l", "m", "w", "u"]
-    },
-    "_planner_parameters": {
-        "test_run_id": "test_01_full",
-        "max_iterations": 3000,
-        "visualization_verbosity_level": "none",
-        "repeats": 1,
-        "use_backtracking": true,
-        "generator_sampling_type": "random_pdf"
-    },
-    "b_planner_parameters": {
-        "test_run_id": "test_01_no_backtrack",
-        "max_iterations": 3000,
-        "visualization_verbosity_level": "none",
-        "repeats": 8,
-        "use_backtracking": false,
-        "generator_sampling_type": "random_pdf"
-    },
-    "c_planner_parameters": {
-        "test_run_id": "test_01_gen_best",
-        "max_iterations": 3000,
-        "visualization_verbosity_level": "none",
-        "repeats": 8,
-        "use_backtracking": true,
-        "generator_sampling_type": "best"
-    },
-    "d_planner_parameters": {
-        "test_run_id": "test_01_random",
-        "max_iterations": 3000,
-        "visualization_verbosity_level": "none",
-        "repeats": 6,
-        "use_backtracking": true,
-        "generator_sampling_type": "random"
-    },
     "max_RAM_usage_GB": 25,
-    "test_suite_repeats": 3,
-    "_test_suite": [
-        {
-            "test_run_id": "test_01_full",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": true,
-            "generator_sampling_type": "random_pdf"
-        },
-        {
-            "test_run_id": "test_01_gen_best",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": true,
-            "generator_sampling_type": "best"
-        },
-        {
-            "test_run_id": "test_01_no_backtrack_best",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": false,
-            "generator_sampling_type": "best"
-        },
-        {
-            "test_run_id": "test_01_no_backtrack",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": false,
-            "generator_sampling_type": "random_pdf"
-        },
-        {
-            "test_run_id": "test_01_random",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": true,
-            "generator_sampling_type": "random"
-        }
-    ],
-    "test_suite": [
-        {
-            "test_run_id": "test_01_no_backtrack_best",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": false,
-            "generator_sampling_type": "best"
-        }
-    ],
-    "___test_suite": [
-        {
-            "test_run_id": "test_01_no_backtrack_best",
-            "max_iterations": 2500,
-            "max_planning_time": 480,
-            "visualization_verbosity_level": "none",
-            "use_backtracking": false,
-            "generator_sampling_type": "best"
-        }
-    ],
-    "active_tests":      ["c", "e", "a", "f", "j", "i", "h", "g", "l", "k", "m", "y", "p", "z", "o", "x", "u", "y2", "y3"],
-    "_active_tests":     ["c", "e", "a", "f", "j", "i", "h", "g", "l", "k", "m", "y", "p", "z", "w", "o", "x", "u", "y2", "y3"],
+    "test_suite": {
+        "repeats": 10,
+        "active_problems": ["c", "e", "a", "f", "j", "i", "h", "g", "l", "k", "m", "y", "p", "z", "w", "o", "x", "u", "y2", "y3"],
+        "variants": [
+            {
+                "test_run_id": "test_01_full",
+                "max_iterations": 2500,
+                "max_planning_time": 480,
+                "visualization_verbosity_level": "none",
+                "use_backtracking": true,
+                "generator_sampling_type": "random_pdf"
+            },
+            {
+                "test_run_id": "test_01_gen_best",
+                "max_iterations": 2500,
+                "max_planning_time": 480,
+                "visualization_verbosity_level": "none",
+                "use_backtracking": true,
+                "generator_sampling_type": "best"
+            },
+            {
+                "test_run_id": "test_01_no_backtrack_best",
+                "max_iterations": 2500,
+                "max_planning_time": 480,
+                "visualization_verbosity_level": "none",
+                "use_backtracking": false,
+                "generator_sampling_type": "best"
+            },
+            {
+                "test_run_id": "test_01_no_backtrack",
+                "max_iterations": 2500,
+                "max_planning_time": 480,
+                "visualization_verbosity_level": "none",
+                "use_backtracking": false,
+                "generator_sampling_type": "random_pdf"
+            },
+            {
+                "test_run_id": "test_01_random",
+                "max_iterations": 2500,
+                "max_planning_time": 480,
+                "visualization_verbosity_level": "none",
+                "use_backtracking": true,
+                "generator_sampling_type": "random"
+            }
+        ]
+    },
     "planning_problems": [
         {
             "id": "a",

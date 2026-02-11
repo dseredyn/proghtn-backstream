@@ -22,6 +22,7 @@ setup(
         "console_scripts": [
             "planner = tamp_htn_stream.planner:main",
             "domain_visualization = tamp_htn_stream.domain_visualization:main",
+            "summarize_tests = tamp_htn_stream.summarize_tests:main",
         ],
     },
 )

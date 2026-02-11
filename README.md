@@ -26,12 +26,13 @@ The planner was tested on the following setup:
 Create workspace and venv environemnt for Python
 ```bash
 source /opt/ros/jazzy/setup.bash
-mkdir -p ~/ws_tamp
+mkdir -p ~/ws_tamp/src
+mkdir -p ~/ws_tamp/visualization/planning
+touch ~/ws_tamp/visualization/COLCON_IGNORE
 cd ~/ws_tamp
 python3 -m venv --system-site-packages ./venv/
 source venv/bin/activate
 pip install pybullet
-mkdir src
 cd src
 git clone --branch v1.0.0 https://github.com/dseredyn/proghtn-backstream.git
 git clone --branch v1.0.0 https://github.com/RCPRG-ros-pkg/velma_robot.git
@@ -52,5 +53,11 @@ Run planner:
 ```bash
 cd ~/ws_tamp
 source install/setup.bash
-ros2 run tamp_htn_stream planner package://tamp_htn_stream_examples/examples/velma_domain.json  --offline-test package://tamp_htn_stream_examples/examples/velma_test.json
+ros2 run tamp_htn_stream planner package://tamp_htn_stream_examples/examples/velma_domain.json --offline-test package://tamp_htn_stream_examples/examples/velma_test.json --visualization-dir ~/ws_tamp/visualization/planning
 ```
+
+Create plots:
+```bash
+ros2 run tamp_htn_stream summarize_tests --visualization-dir ~/ws_tamp/visualization/planning
+```
+

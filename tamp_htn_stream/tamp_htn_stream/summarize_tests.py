@@ -15,22 +15,27 @@
 
 from __future__ import annotations
 
+import os
 import json
+import argparse
 from pathlib import Path
 from typing import Any, Dict
 from typing import Mapping, Sequence, Optional
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 all_names_sorted =\
-    ['c', 'e', 'a', 'f', 'j', 'i', 'h', 'g', 'l', 'k', 'm', 'y', 'p', 'z', 'w', 'o', 'x', 'u', 'y2', 'y3']
-    
+    ['c', 'e', 'a', 'f', 'i', 'j', 'h', 'g', 'l', 'm', 'p', 'k', 'y', 'z', 'w', 'o', 'x', 'y2', 'u', 'y3']
+
+renamed_problems = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
+renamed_map = {old_name: new_name for old_name, new_name in zip(all_names_sorted, renamed_problems)}
+renamed_map['pddlstream'] = 'Z'
+
 def load_jsons_one_level(root_dir: str | Path, filename: str, encoding: str = "utf-8"
                          ) -> Dict[Path, dict[str, Any]]:
     """
     Reads json file in each subdirectory of root_dir
-    Returns: {fiel_path: json_data}
+    Returns: {file_path: json_data}
     """
     root = Path(root_dir)
     if not root.is_dir():
@@ -53,6 +58,7 @@ def load_jsons_one_level(root_dir: str | Path, filename: str, encoding: str = "u
 
 
 def plot_samples(
+    all_names_sorted: list[str],
     samples: Mapping[str, Sequence[float]],
     success_rate_map: Mapping[str, str]|None,
     *,
@@ -73,7 +79,26 @@ def plot_samples(
     Violin plot dla wielu zmiennych. Jeśli lista próbek jest pusta,
     funkcja zaznaczy to tekstem na wykresie zamiast rzucać wyjątek.
     """
-    #names = list(samples.keys())
+
+    # rename samples
+    print(all_names_sorted)
+    all_names_sorted_ren = [renamed_map[problem_id] for problem_id in all_names_sorted]
+    all_names_sorted = all_names_sorted_ren
+    samples_ren = {}
+    if not success_rate_map is None:
+        success_rate_map_ren = {}
+    else:
+        success_rate_map_ren = None
+    for problem_id, sample in samples.items():
+        new_problem_id = renamed_map[problem_id]
+        samples_ren[new_problem_id] = sample
+        if not success_rate_map_ren is None:
+            assert not success_rate_map is None
+            success_rate_map_ren[new_problem_id] = success_rate_map[problem_id]
+    samples = samples_ren
+    if not success_rate_map_ren is None:
+        success_rate_map = success_rate_map_ren
+
     names = [name for name in all_names_sorted if name in samples]
     arrays = [np.asarray(samples[n], dtype=float) for n in names]
 
@@ -116,21 +141,6 @@ def plot_samples(
     ax.set_xticks(positions_all)
     ax.set_xticklabels(names)
 
-    # Zaznacz puste zmienne tekstem
-    # empty_positions = [positions_all[i] for i, arr in enumerate(arrays) if arr.size == 0]
-    # if empty_positions:
-    #     # sensowna wysokość napisu: trochę ponad aktualny zakres osi Y,
-    #     # a jeśli nie ma danych w ogóle, to użyj 0.0
-    #     y0, y1 = ax.get_ylim()
-    #     if not np.isfinite(y0) or not np.isfinite(y1) or (y0 == 0 and y1 == 1):
-    #         # fallback (np. gdy wszystkie listy puste)
-    #         y_text = 0.0
-    #     else:
-    #         y_text = y1 - 0.05 * (y1 - y0)
-
-    #     for x in empty_positions:
-    #         ax.text(x, y_text, empty_label, ha="center", va="top")
-
     if y_lim is None:
         # Print samples count
         y0, y1 = ax.get_ylim()
@@ -165,27 +175,78 @@ def plot_samples(
     return ax
 
 
-plot_out_dir = '/home/dseredyn/ws_tamp/visualization/plots'
+def summarizePDDLStreamTest(plot_out_dir: str):
+    # https://github.com/caelan/pddlstream.git
+    # problem A: python -m examples.pybullet.tamp.run -problem packed
+    # problem B: 
+    # problem C: 
+
+    samples = {
+        'pddlstream': [67.032, 86.760, 34.797, 48.505, 37.919, 29.445, 41.774, 31.129, 46.964, 32.603],
+#        'B': [7.378, 25.602, 4.369, 20.324, 3.552, 25.421, 6.013, 7.336, 3.381, 3.337],
+#        'C': [],
+        }
+
+    _, ax = plt.subplots(figsize=(1.5, 3))
+    plot_samples(['pddlstream'], samples, None, ylabel="time [s]", y_lim=(0, 100), ax=ax)
+    plt.tight_layout()
+    plt.savefig(f'{plot_out_dir}/time_pddlstream.png')
+    plt.savefig(f'{plot_out_dir}/time_pddlstream.pdf')
+
+    samples = {
+        'pddlstream': [32, 41, 20, 29, 20, 20, 20, 20, 29, 20],
+#        'B': [4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+#        'C': [],
+        }
+    _, ax = plt.subplots(figsize=(1.5, 3))
+    plot_samples(['pddlstream'], samples, None, ylabel="actions", y_lim=(0, 50), ax=ax)
+    plt.tight_layout()
+    plt.savefig(f'{plot_out_dir}/plan_pddlstream.png')
+    plt.savefig(f'{plot_out_dir}/plan_pddlstream.pdf')
 
 
 def main(argv=None) -> int:
 
-    base_dir = '/home/dseredyn/ws_tamp/visualization/planning',
-    # current_dir_list = ['test_suite_all_11_tasks_8_runs', 'test_suite_all_11_tasks_8_runs_added',
-    #                     'test_suite_all_two_runs_added']
-    current_dir_list = [
-        # '2026-02-05/old/test_01_full',
-        # '2026-02-05/old/test_01_gen_best',
-        # '2026-02-05/old/test_01_no_backtrack_best',
-        # '2026-02-05/old/test_01_no_backtrack',
-        # '2026-02-05/old/test_01_random',
-        '2026-02-05/new/test_01_full',
-        '2026-02-05/new/test_01_gen_best',
-        '2026-02-05/new/test_01_no_backtrack_best',
-        '2026-02-05/new/test_01_no_backtrack',
-        '2026-02-05/new/test_01_random',
-        '2026-02-05',
-        '2026-02-06']
+    parser = argparse.ArgumentParser(
+        prog="planner",
+        description="Run planner with a dynamically loaded plugin and config from tamp_htn_stream_examples.",
+    )
+
+    parser.add_argument(
+        "--visualization-dir",
+        help="Test suite .json file path: absolute OR package://<pkg-name>/<relative-path>",
+    )
+    args = parser.parse_args(argv)
+
+    vis_path_base = args.visualization_dir
+    plot_out_dir = f'{vis_path_base}/plot'
+
+    try:
+        os.makedirs(plot_out_dir)
+    except:
+        pass
+
+
+    summarizePDDLStreamTest(plot_out_dir)
+
+    # current_dir_list = [
+    #     '2026-02-11']
+
+    current_dir_list = []
+
+    root = Path(vis_path_base)
+    if not root.is_dir():
+        raise NotADirectoryError(root)
+
+    out: Dict[Path, dict[str, Any]] = {}
+
+    for subdir in root.iterdir():
+        if not subdir.is_dir():
+            continue
+        if subdir.name == 'latest':
+            continue
+        current_dir_list.append(subdir)
+
     test_run_list = [
         ('backtrack, random_pdf', 'test_01_full', current_dir_list),
         ('backtrack, highest_score', 'test_01_gen_best', current_dir_list),
@@ -199,11 +260,12 @@ def main(argv=None) -> int:
     summary = []
     all_runs_problem_min_plan_length_map = {}
     for pretty_name, test_run_id, current_dir_list in test_run_list:
-        tests_dirs = [f'/home/dseredyn/ws_tamp/visualization/planning/{sub_dir}/' for sub_dir in current_dir_list]
+        #tests_dirs = [f'{vis_path_base}/{sub_dir}/' for sub_dir in current_dir_list]
+        tests_dirs = current_dir_list
 
-        sum_planning_time, plan_lengths, count_solved, count_total, problem_min_plan_length_map = \
-                                summarize_test_run(pretty_name, test_run_id, tests_dirs)
-        summary.append( (test_run_id, sum_planning_time, plan_lengths, count_solved, count_total) )
+        sum_planning_time, plan_lengths, count_solved, count_total, problem_min_plan_length_map, sol_nodes_mean_factor = \
+                                summarize_test_run(pretty_name, test_run_id, tests_dirs, plot_out_dir)
+        summary.append( (test_run_id, sum_planning_time, plan_lengths, count_solved, count_total, sol_nodes_mean_factor) )
 
         for problem_id, min_len in problem_min_plan_length_map.items():
             if not problem_id in all_runs_problem_min_plan_length_map:
@@ -214,12 +276,11 @@ def main(argv=None) -> int:
     print(all_runs_problem_min_plan_length_map)
     # Minimum plan length for each problem for all tests
     samples = all_runs_problem_min_plan_length_map
-    plot_samples(samples, None, title=f"Minimum plan length found", ylabel="actions",
+    plot_samples(all_names_sorted, samples, None, title=f"Minimum plan length found", ylabel="actions",
                     y_lim=(0, 80), use_box_plot=False)
     plt.tight_layout()
-    global plot_out_dir
-    plt.savefig(f'{plot_out_dir}/png/plan.png')
-    plt.savefig(f'{plot_out_dir}/pdf/plan.pdf')
+    plt.savefig(f'{plot_out_dir}/plan.png')
+    plt.savefig(f'{plot_out_dir}/plan.pdf')
     
     run_id_latex_map = {
         'backtrack, random':           '\\ablB{} & \\ablBacktrackOn{} & \\ablSamplingRnd{}',
@@ -230,7 +291,7 @@ def main(argv=None) -> int:
     }
     # Print summary at the end
     print(f'name & time per action [s] & success rate [\\%] \\\\')
-    for test_run_id, sum_succ_planning_time, plan_lengths, count_solved, count_total in summary:
+    for test_run_id, sum_succ_planning_time, plan_lengths, count_solved, count_total, sol_nodes_mean_factor in summary:
         tries_count = 10
         # For all unsolved tries, assume plan length as the minimum length, to better estimate
         # lower bound of action generation time
@@ -250,13 +311,41 @@ def main(argv=None) -> int:
         else:
             success_rate = -1.0
         pretty_name = test_run_id_pretty[test_run_id]
+
+        # solution depth / total nodes
+        # branches / total nodes
         #print(f'{run_id_latex_map[pretty_name]} & {time_per_action:.2f} & {100*success_rate:.1f}\\% \\\\  % {pretty_name}')
-        print(f'{run_id_latex_map[pretty_name]} & {time_per_action:.2f} & {100*success_rate:.1f} \\\\')
+        print(f'{run_id_latex_map[pretty_name]} & {time_per_action:.2f} & '+\
+              f'{100*success_rate:.1f} & {100.0*sol_nodes_mean_factor:.1f} \\\\')
 
     return 0
 
 
-def summarize_test_run(pretty_name, test_run_id, tests_dirs):
+def getNodesCount(data):
+    # count of all nodes:
+    # 1 (root node) + decompositions + successful generations + executions
+    decompositon_count = sum( [m['count'] for m_name, m in data['decompositions']['method'].items()] )
+    succ_generations_count = sum( [s['success'] for s_name, s in data['streams'].items() if 'success' in s] )
+    exec_count = sum( [a['count'] for a_class, a in data['executions'].items()] )
+    result = 1 + decompositon_count + succ_generations_count + exec_count
+    total_iterations = data['algorithm_run']['total_iterations']
+    if result > total_iterations:
+        raise Exception(f'result > total_iterations : {result} > {total_iterations}')
+    return result
+
+    # liczba dekompozycji  = suma ['decompositions']['method'][method_name]['count']
+    # liczba udanych generacji = suma ['streams'][stream_name]['success']
+    # liczba wykonań = ['executions'][action_class]['count']
+
+
+def getSolutionDepth(data):
+    if 'solutions' in data:
+        for sol_node_id in data['solutions']:
+            return data['solutions'][sol_node_id]['depth']
+    return None
+
+
+def summarize_test_run(pretty_name, test_run_id, tests_dirs, plot_out_dir):
     stats_files = {}
     for tests_dir in tests_dirs:
         for key, value in load_jsons_one_level(tests_dir, "stats.json").items():
@@ -290,6 +379,8 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
         'solved_planning_time': [],
         'solved_or_not_planning_time': [],
         'planning_tries': 0,
+        'nodes': [],
+        'solution_depths': [],
         }
 
     # Statistics for streams across all problems
@@ -314,6 +405,9 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
             samples_map[problem_id]['planning_tries'] += 1
             total_time = data['algorithm_run']['total_time']
             samples_map[problem_id]['solved_or_not_planning_time'].append( total_time )
+
+            samples_map[problem_id]['nodes'].append( getNodesCount(data) )
+            samples_map[problem_id]['solution_depths'].append( getSolutionDepth(data) )
 
             for stream_name, stream in data['streams'].items():
                 if not stream_name in streams_map:
@@ -375,7 +469,7 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
             success_rate_map[problem_id] = f'1'
         else:
             success_rate_map[problem_id] = f'{solved_count/count:.1f}'
-        success_rate_map[problem_id] += f'\n{count}'
+        #success_rate_map[problem_id] += f'\n{count}'
         # success_rate_map[problem_id] = f'{solved_count}'
         print(f'problem {problem_id}, sol: {solved_count}/{count}, it: {mean_iterations:.1f}, '+\
               f'time: {mean_time:.1f}, depth: {mean_max_node_depth:.1f}, plan: {mean_plan_length}')
@@ -427,6 +521,7 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
             success_rate = 100.0 * stream_info['sum_success'] / stream_info['sum_total_count']
             all_successful_gen += stream_info['sum_success']
             
+            gen_count = stream_info['sum_total_count']
             # if all_backtracks_count == 0:
             #     blame_factor = 0
             # else:
@@ -436,13 +531,13 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
             # gen_summary.append( [stream_name, f'{percent_count:.1f}', f'{percent_time:.1f}',
             #         f'{mean_time:.1f}', f'{success_rate:.1f}', f'{blame_factor:.1f}'] )
             gen_summary.append( [stream_name, percent_count, percent_time,
-                    mean_time, success_rate, blame_factor] )
+                    mean_time, gen_count, success_rate, blame_factor] )
         
         gen_summary = sorted(gen_summary, key=lambda x: x[2], reverse=True)
 
         # The last row is all streams summary
         all_gen_time_percent = 100.0 * total_gen_time / all_problems_planning_time
-        all_gen_mean_time = all_gen_time_percent / all_generations_count
+        all_gen_mean_time = total_gen_time / all_generations_count
         total_success_rate = 100.0 * all_successful_gen / all_generations_count
 
         # if all_backtracks_count == 0:
@@ -451,7 +546,7 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
         all_blame_factor = 100.0 * all_bad_param_gen / all_blames_count
         
         gen_summary.append( ['all', 100.0, all_gen_time_percent, all_gen_mean_time,
-                             total_success_rate, all_blame_factor] )
+                             all_generations_count, total_success_rate, all_blame_factor] )
 
         exclude_gen = [
             'GenGraspReservedSpace',
@@ -476,21 +571,40 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
 
         txt = ''
         for idx, (stream_name, percent_count,\
-                  percent_time, mean_time, success_rate, blame_factor) in enumerate(gen_summary):
-            if idx == len(gen_summary) - 1:
-                txt += '\\hline \n'
+                  percent_time, mean_time, gen_count, success_rate, blame_factor) in enumerate(gen_summary):
             if stream_name in exclude_gen:
                 stream_name = f'%{stream_name}'
-            # txt += f'{stream_name} & {percent_count:.1f} & {percent_time:.1f} & '+\
-            #         f'{mean_time:.1f} & {success_rate:.1f} & {blame_factor:.1f} \\\\ \n'
             txt += f'{stream_name} & {percent_time:.1f} & '+\
-                    f'{mean_time:.1f} & {success_rate:.1f} & {blame_factor:.1f} \\\\ \n'
+                   f'{mean_time:.1f} & {percent_count:.1f} & {success_rate:.1f} & {blame_factor:.1f} \\\\ \n'
+            if idx == len(gen_summary) - 1:
+                txt += '\\hline \n'
+                txt += f'{stream_name} & {percent_time:.1f} & '+\
+                        f'{mean_time:.1f} & -- & '+\
+                        f'{success_rate:.1f} & -- \\\\ \n'
 
         print('******** generators summary **********')
         print(f'  all_backtracks_count: {all_backtracks_count}')
+        print(f'  all generations count: {all_generations_count}')
+        print(f'  all generations time: {total_gen_time}')
         print(txt)
         print(f'All generators planning time factor: '+\
               f'{100 * total_gen_time / all_problems_planning_time:.2f} %')
+
+        mean_planning_time_problems = ['j', 'i', 'h', 'g', 'l', 'm', 'y', 'p']
+        mean_planning_time = 0.0
+        mean_planning_time_count = 0
+        for problem_id in mean_planning_time_problems:
+            if not problem_id in samples_map:
+                continue
+            mean_planning_time += sum(samples_map[problem_id]['solved_planning_time'])
+            mean_planning_time_count += len(samples_map[problem_id]['solved_planning_time'])
+        if mean_planning_time_count > 0:
+            mean_planning_time = mean_planning_time / mean_planning_time_count
+        else:
+            mean_planning_time = 0.0
+        print(f'Mean planning time for problems {mean_planning_time_problems} is {mean_planning_time:.1f}')
+
+    
 
     for stream_name, str_info in streams_map.items():
         stream_name_lj = stream_name.ljust(25)
@@ -512,41 +626,38 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
     }
     filename = out_filenames_map[test_run_id]
 
-    global plot_out_dir
     # Planning time for each problem
     samples = {problem_id: values['total_time'] for problem_id, values in samples_map.items()}
     if len(samples) > 0:
-        # plot_samples(samples, success_rate_map, title=f"Total planning time", ylabel="time [s]",
+        # plot_samples(all_names_sorted, samples, success_rate_map, title=f"Total planning time", ylabel="time [s]",
         #              y_lim=(0, 550))
-        plot_samples(samples, success_rate_map, ylabel="time [s]", y_lim=(0, 550))
+        plot_samples(all_names_sorted, samples, success_rate_map, ylabel="time [s]", y_lim=(0, 550))
         plt.tight_layout()
-        plt.savefig(f'{plot_out_dir}/png/time_{filename}.png')
-        plt.savefig(f'{plot_out_dir}/pdf/time_{filename}.pdf')
+        plt.savefig(f'{plot_out_dir}/time_{filename}.png')
+        plt.savefig(f'{plot_out_dir}/time_{filename}.pdf')
         # plt.show()
 
     # Number of iterations for each problem
-    plot_out_dir = '/home/dseredyn/ws_tamp/visualization/plots'
     samples = {problem_id: values['iterations'] for problem_id, values in samples_map.items()}
     if len(samples) > 0:
-        plot_samples(samples, success_rate_map, title=f"Iterations", ylabel="iterations",
+        plot_samples(all_names_sorted, samples, success_rate_map, title=f"Iterations", ylabel="iterations",
                      y_lim=(0, 2000))
         plt.tight_layout()
-        plt.savefig(f'{plot_out_dir}/png/iterations_{filename}.png')
-        plt.savefig(f'{plot_out_dir}/pdf/iterations_{filename}.pdf')
+        plt.savefig(f'{plot_out_dir}/iterations_{filename}.png')
+        plt.savefig(f'{plot_out_dir}/iterations_{filename}.pdf')
 
     # samples = {problem_id: values['max_node_depth'] for problem_id, values in samples_map.items()}
-    # plot_samples(samples, success_rate_map, title="Maximum depth of the search tree", ylabel="depth")
+    # plot_samples(all_names_sorted, samples, success_rate_map, title="Maximum depth of the search tree", ylabel="depth")
     # plt.tight_layout()
     # plt.show()
 
     # Plan length for each problem
     samples = {problem_id: values['plan_length'] for problem_id, values in samples_map.items()}
     if len(samples) > 0:
-        plot_samples(samples, success_rate_map, title=f"Plan length", ylabel="actions",
-                     y_lim=(0, 80))
+        plot_samples(all_names_sorted, samples, None, ylabel="actions", y_lim=(0, 80))
         plt.tight_layout()
-        plt.savefig(f'{plot_out_dir}/png/plan_{filename}.png')
-        plt.savefig(f'{plot_out_dir}/pdf/plan_{filename}.pdf')
+        plt.savefig(f'{plot_out_dir}/plan_{filename}.png')
+        plt.savefig(f'{plot_out_dir}/plan_{filename}.pdf')
 
 
     # print(f'samples_map: {samples_map}')
@@ -558,6 +669,9 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
     count_solved = 0
     count_total = 0
     problem_min_plan_length_map = {}
+
+    sol_nodes_mean_factor = 0.0
+    sol_nodes_mean_factor_count = 0
     for problem_id, values in samples_map.items():
         count_solved += len(values['solved_planning_time'])
         count_total += values['planning_tries']
@@ -569,8 +683,17 @@ def summarize_test_run(pretty_name, test_run_id, tests_dirs):
         if 'plan_length' in samples_map[problem_id] and len(samples_map[problem_id]['plan_length']) > 0:
             problem_min_plan_length_map[problem_id] = min(samples_map[problem_id]['plan_length'])
 
+        for sol_node_depth, all_nodes in zip(samples_map[problem_id]['solution_depths'], samples_map[problem_id]['nodes']):
+            if not sol_node_depth is None:
+                sol_nodes_mean_factor += sol_node_depth / all_nodes
+                sol_nodes_mean_factor_count += 1
+
+    if sol_nodes_mean_factor_count > 0:
+        sol_nodes_mean_factor = sol_nodes_mean_factor / sol_nodes_mean_factor_count
+    else:
+        sol_nodes_mean_factor = 0.0
 #    return (sum_planning_time, sum_plan_length, count_solved, count_total, problem_min_plan_length_map)
-    return (sum_succ_planning_time, plan_lengths, count_solved, count_total, problem_min_plan_length_map)
+    return (sum_succ_planning_time, plan_lengths, count_solved, count_total, problem_min_plan_length_map, sol_nodes_mean_factor)
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -144,6 +144,12 @@ def createLogDir(log_dir, path_suffix):
         os.mkdir(subdir2_path)
     return subdir2_path
 
+def getPlanningProblemById(test_config: dict[str, Any], problem_id: str) -> dict[str, Any]|None:
+    for pp in test_config['planning_problems']:
+        if pp['id'] == problem_id:
+            return pp
+    return None
+    
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         prog="planner",
@@ -157,11 +163,13 @@ def main(argv=None) -> int:
         "--offline-test",
         help="Test suite .json file path: absolute OR package://<pkg-name>/<relative-path>",
     )
+    parser.add_argument(
+        "--visualization-dir",
+        help="Test suite .json file path: absolute OR package://<pkg-name>/<relative-path>",
+    )
     args = parser.parse_args(argv)
 
-    # TODO: read this from cmdline:
-    out_vis_path_base = '/home/dseredyn/ws_tamp/visualization/planning'
-
+    out_vis_path_base = args.visualization_dir
     grammar_uri = 'package://tamp_htn_stream/data/grammar_hsddl.txt'
     grammar_file_path = _resolve_path_uri(grammar_uri)
 
@@ -229,9 +237,14 @@ def main(argv=None) -> int:
 
     # Prepare test run
     tests_list = []
-    for idx in range(offline_test['test_suite_repeats']):
-        for test in offline_test['test_suite']:
+    for idx in range(offline_test['test_suite']['repeats']):
+        for test in offline_test['test_suite']['variants']:
             tests_list.append(test)
+
+    # "test_suite": {
+    #     "repeats": 10,
+    #     "active_problems": ["c", "e", "a", "f", "j", "i", "h", "g", "l", "k", "m", "y", "p", "z", "w", "o", "x", "u", "y2", "y3"],
+    #     "variants": [
 
     max_RAM_usage_GB = int(offline_test['max_RAM_usage_GB'])
 
@@ -252,11 +265,11 @@ def main(argv=None) -> int:
         generator_sampling_type = test['generator_sampling_type']
         test_run_id = test['test_run_id']
 
-        for pp in offline_test['planning_problems']:
-            if not pp['id'] in offline_test['active_tests']:
-                continue
-            # else:
-            print(f'Running offline test for planning problem id: {pp['id']}')
+        for problem_id in offline_test['test_suite']['active_problems']:
+            pp = getPlanningProblemById(offline_test, problem_id)
+            if pp is None:
+                raise Exception(f'Planning problem not found: "{problem_id}"')
+            print(f'Running offline test for planning problem id: {problem_id}')
 
             vm = psutil.virtual_memory()
             vm_total_GB = vm.total / (1024**3)
@@ -304,7 +317,7 @@ def main(argv=None) -> int:
                     stats.setValue('algorithm_run.max_iterations', max_iterations)
                 if not max_planning_time is None:
                     stats.setValue('algorithm_run.max_planning_time', max_planning_time)
-                stats.setValueObj('algorithm_run.problem_id', pp['id'])
+                stats.setValueObj('algorithm_run.problem_id', problem_id)
                 stats.setValueObj('algorithm_run.generator_sampling_type', generator_sampling_type)
                 stats.setValueObj('algorithm_run.use_backtracking', use_backtracking)
                 #stats.setValueObj('algorithm_run.repeat_idx', repeat_idx)
@@ -315,7 +328,7 @@ def main(argv=None) -> int:
             #     print(e)
             #     exception = True
             finally:
-                out_vis_path = createLogDir(out_vis_path_base, f'{pp['id']}_{test_run_id}')
+                out_vis_path = createLogDir(out_vis_path_base, f'{problem_id}_{test_run_id}')
                 print(f'Saving planning results to {out_vis_path}')
                 print(f'visualization_verbosity_level: {visualization_verbosity_level}')
                 pv = PlanningVis(pd, world_model_module, pt, plans, stats, visualization_verbosity_level)

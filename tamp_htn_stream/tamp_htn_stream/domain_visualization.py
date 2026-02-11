@@ -157,9 +157,6 @@ def main(argv=None) -> int:
     )
     args = parser.parse_args(argv)
 
-    # TODO: read this from cmdline:
-    out_vis_path_base = '/home/dseredyn/ws_tamp/visualization/planning'
-
     grammar_uri = 'package://tamp_htn_stream/data/grammar_hsddl.txt'
     grammar_file_path = _resolve_path_uri(grammar_uri)
 
