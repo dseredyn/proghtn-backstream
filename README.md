@@ -26,21 +26,13 @@ The planner was tested on the following setup:
 Create workspace and venv environemnt for Python
 ```bash
 source /opt/ros/jazzy/setup.bash
-mkdir -p ~/ws_tamp/src
-cd ~/ws_tamp/src
-
-TODO
+mkdir -p ~/ws_tamp
+cd ~/ws_tamp
+python3 -m venv --system-site-packages ./venv/
 source venv/bin/activate
-
-```
-
-TODO: add venv configuration
-
-Download and compile ROS 2 overlay workspace:
-```bash
-source /opt/ros/jazzy/setup.bash
-mkdir -p ~/ws_tamp/src
-cd ~/ws_tamp/src
+pip install pybullet
+mkdir src
+cd src
 git clone --branch v1.0.0 https://github.com/dseredyn/proghtn-backstream.git
 git clone --branch v1.0.0 https://github.com/RCPRG-ros-pkg/velma_robot.git
 cd ~/ws_tamp
